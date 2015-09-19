@@ -40,7 +40,7 @@ The iPlant team has created a set of credentials for each workshop attendee and 
 
 **Query the iPlant Agave metadata service**
 
-In the Agave CLI window, enter the following command, substituting IPLANT_USERNAME for your own iPlant username. Pay careful attention to the use of single and double quotes!
+In the Agave CLI window, enter the following command, **substituting IPLANT_USERNAME for your own iPlant username**. Pay careful attention to the use of single and double quotes!
 
 ``metadata-list -v -Q '{"name":"iplant-aws.dib-train-0923.IPLANT_USERNAME"}'``
 
@@ -59,7 +59,7 @@ You should get a response back that looks like this (abbreviated) JSON document:
         "created": "2015-09-17T16:32:26.151-05:00",
         "internalUsername": null,
         "lastUpdated": "2015-09-17T16:32:26.151-05:00",
-        "name": "iplant-aws.dib-train-0923.jfonner",
+        "name": "iplant-aws.dib-train-0923.IPLANT_USERNAME",
         "owner": "vaughn",
         "schemaId": null,
         "uuid": "0001442525546151-e0bd34dffff8de6-0001-012",
@@ -74,17 +74,17 @@ This document contains every detail you need to interact with iPlant's AWS accou
 
 Change into /home in the container, then pipe the document out to a file.
 
-``cd /home && metadata-list -v -Q '{"name":"iplant-aws.dib-train-0923.jfonner"}' > my-aws-creds.json``
+``cd /home && metadata-list -v -Q '{"name":"iplant-aws.dib-train-0923.IPLANT_USERNAME"}' > my-aws-creds.json``
 
 The resulting JSON document contains an array consisting of one object with several keys. Some of the keys have children. Here's how to extract the *iam_user*, which is your AWS login, from the document:
 
-```jq -r .[0].value.identity.iam_user my-aws-creds.json```
+``jq -r .[0].value.identity.iam_user my-aws-creds.json``
 
 You should get back ``IPLANT_USERNAME.iplantc.org``
 
-Exercises:
+**Exercises:**
 
-1. Find and print out your AWS secret and key
+1. Find your AWS secret and key
 2. Find your IAM password
 3. Find out who is the *owner* of the JSON document that was shared with you
 4. What is the *uuid* of the document?
