@@ -101,14 +101,69 @@ Using your iam_username and iam_password, log into ``https://iplant-aws.signin.a
 2. Create a directory in your S3 bucket and upload a small file to it.
 3. Try to inspect a running EC2 instance running. What is its public IP address?
 
+**Check out the workshop material from Github**
+
+The iPlant team has prepared several useful utility files and scripts to help with the objectives of the workshop. In the **agave-cli** Docker container, cd into **/home**, check out the repository for this workshop, and **cd into Advanced_iPlant**.
+
+``git checkout https://github.com/iPlantCollaborativeOpenSource/Advanced_iPlant``
+
 Optional: Using AWS S3 for storage with Agave
 ---------------------------------------------
 
-In addition to the iPlant Data Store (data.iplantcollaborative.org), Agave lets you manage data stored on other iRODS, FTP, SFTP, and gridFTP servers plus the Amazon S3 and Microsoft Azure Blob cloud providers (coming soon: support for Dropbox, Box, and Google Drive). Enrolling your data storage resources with Agave lets you easily and quickly script movement of data from site to site in your research workflow, while maintaining detailed provenance tracking of every data action you take. It also provides a unified namespace for all of your data.
+Besides the iPlant Data Store (data.iplantcollaborative.org), the Agave APIs let you manage data stored on other iRODS, FTP, SFTP, and gridFTP servers plus the Amazon S3 and Microsoft Azure Blob cloud providers (coming soon: support for Dropbox, Box, and Google Drive). Enrolling your data storage resources with Agave lets you easily and quickly script movement of data from site to site in your research workflow, while maintaining detailed provenance tracking of every data action you take. It also provides a unified namespace for all of your data.
 
 You will now create and exercise an Amazon S3-based storage resource, then interact with it. If you're interested in working with your own storage systems, make sure to check out the `System Management Tutorial <http://preview.agaveapi.co/documentation/tutorials/system-management-tutorial/>`_ at the Agave developer's portal.
 
 **Set up an Agave storageSystem**
+
+In your agave-cli Docker container window, set the following environment variables:
+
+.. code-block:: bash
+
+  export DEMO_S3_BUCKET="Your S3 bucket name"
+  export IAM_KEY="Your apikeys.key"
+  export IAM_SECRET="Your apikeys.secret"
+
+Make sure you're in the **Advanced_iPlant** directory and run the following command from the **agave-cli container**.
+
+``scripts/make_s3_description.sh``
+
+This script uses the environment variables to turn a template file (``scripts/templates/systems/s3-storage.tpl``) into a functional **Agave system description**. Run without a redirect, it prints text to the screen, so you should see something resembling the following:
+
+.. code-block:: json
+
+    {
+        "description": "Amazon S3 system owned by vaughn",
+        "environment": null,
+        "id": "vaughn-s3-storage",
+        "name": "S3 Object Store",
+        "site": "aws.amazon.com",
+        "status": "UP",
+        "storage": {
+            "host": "s3-website-us-west-1.amazonaws.com",
+            "port": 443,
+            "protocol": "S3",
+            "rootDir": "/",
+            "homeDir": "/",
+            "container": "mah_s3_bucket",
+            "auth": {
+                "publicKey": "AMW3BEA3IM3BEA3BEA",
+                "privateKey": "yfPIjHxCT5v66VHyp6VPIjHxCT5v66VPIjHOTxXa",
+                "type": "APIKEYS"
+            }
+        },
+        "type": "STORAGE"
+    }
+
+Re-run the script, redirecting the output to a file ``scripts/make_s3_description.sh > my-s3.json``, then register the system with the Agave systems API
+
+```systems-addupdate -v -F my-s3.json``
+
+Exercises:
+
+1. Retrieve a detailed description of **data.iplantcollaborative.org** using the verbose option of ``systems-list``. What storage protocol does the iPlant Data Store use? What kind of authentication?
+2. What other public storage systems are enrolled with iPlant (hint: use the -S -P flags)
+3. Can you find your new S3 system in the listing of public systems? Why not?
 
 **Upload some data**
 
@@ -163,4 +218,4 @@ An Agave application consists of:
 
 Check out the following Git repository and ``cd`` into it:
 
-``git checkout https://github.com/iPlantCollaborativeOpenSource/advanced_iplant``
+``git checkout https://github.com/iPlantCollaborativeOpenSource/Advanced_iPlant``
