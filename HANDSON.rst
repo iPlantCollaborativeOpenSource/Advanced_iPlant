@@ -36,11 +36,63 @@ This launches a container running the latest release of the iPlant flavor of the
 Retrieving your AWS credentials
 -------------------------------
 
-The iPlant team has pre-created a set of credentials for each workshop attendee and stored it in the Agave document store. In the next steps, you will retrieve that information so it can be used later. If you have your own AWS credentials you'd prefer to use, you can substitute them for the ones we have provided in the following exercises.
+The iPlant team has created a set of credentials for each workshop attendee and stored it in the Agave document store. In the next steps, you will retrieve that information so it can be used later. If you have your own AWS credentials you'd prefer to use, talk to the instructors and we'll get you set up.
 
 **Query the iPlant Agave metadata service**
 
+In the Agave CLI window, enter the following command, substituting IPLANT_USERNAME for your own iPlant username. Pay careful attention to the use of single and double quotes!
+
+``metadata-list -v -Q '{"name":"iplant-aws.dib-train-0923.IPLANT_USERNAME"}'``
+
+You should get a response back that looks like this (abbreviated) JSON document:
+
+.. code:block:: json
+
+    [
+    {
+        "_links": {
+            "self": {
+                "href": "https://agave.iplantc.org/meta/v2/data/0001442525546151-e0bd34dffff8de6-0001-012"
+            }
+        },
+        "associationIds": [],
+        "created": "2015-09-17T16:32:26.151-05:00",
+        "internalUsername": null,
+        "lastUpdated": "2015-09-17T16:32:26.151-05:00",
+        "name": "iplant-aws.dib-train-0923.jfonner",
+        "owner": "vaughn",
+        "schemaId": null,
+        "uuid": "0001442525546151-e0bd34dffff8de6-0001-012",
+        "value": {
+            "apikeys": {
+                "key": "AMWIM3BEAT3BEAWT3BEA",
+                "secret": "yfP3ylcmq6Syp6Syp6VPIjHxCT5v66VPIjHOTxXa"
+            }
+        }}]
+
+This document contains every detail you need to interact with iPlant's AWS account. Let's take a minute to learn how to pull key bits out for use in scripting. We will use the *jq* parser, which is installed by default in the iPlant Agave CLI image.
+
+Change into /home in the container, then pipe the document out to a file.
+
+``cd /home && metadata-list -v -Q '{"name":"iplant-aws.dib-train-0923.jfonner"}' > my-aws-creds.json``
+
+The resulting JSON document contains an array consisting of one object with several keys. Some of the keys have children. Here's how to extract the *iam_user*, which is your AWS login, from the document:
+
+```jq -r .[0].value.identity.iam_user my-aws-creds.json```
+
+You should get back ``IPLANT_USERNAME.iplantc.org``
+
+Exercises:
+
+1. Find and print out your AWS secret and key
+2. Find your IAM password
+3. Find out who is the *owner* of the JSON document that was shared with you
+4. What is the *uuid* of the document?
+5. Bonus: Use ``metadata-pems-list`` to find out if anyone else had read permission on this document
+
 **Explore the AWS Console**
+
+Use iam_username and iam_password to log into https://iplant-aws.signin.aws.amazon.com/console
 
 Using AWS S3 for storage with Agave
 -----------------------------------
@@ -58,9 +110,11 @@ Using AWS EC2 for computing with Agave
 
 **Launch a Docker-enabled VM at AWS using Docker Machine**
 
-``
-export DEMO_VM=pick_a_name
-docker-machine create --driver amazonec2 \
+.. code-block:: bash
+
+  export IAM_KEY=*your
+  export DEMO_VM=pick_a_name
+  docker-machine create --driver amazonec2 \
         --amazonec2-access-key AKIAJXPAEHZILERLYJVQ \
         --amazonec2-instance-type t2.micro  \
         --amazonec2-root-size 16  \
@@ -69,7 +123,6 @@ docker-machine create --driver amazonec2 \
         --amazonec2-region "us-west-1" \
         --amazonec2-ami "ami-942717d1" \
         $DEMO_VM
-``
 
 **Set up your VM as an Agave executionSystem**
 
@@ -87,4 +140,3 @@ An Agave application consists of:
 Check out the following Git repository and ``cd`` into it:
 
 ``git checkout https://github.com/iPlantCollaborativeOpenSource/advanced_iplant``
-
