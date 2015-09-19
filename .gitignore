@@ -1,0 +1,6 @@
+*.pem
+*.json
+Policy.json
+Meta.json
+.DS_Store
+.agave
