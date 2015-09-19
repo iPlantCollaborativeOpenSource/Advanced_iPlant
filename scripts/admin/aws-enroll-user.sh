@@ -41,6 +41,9 @@ sh -c "cat > Meta.json" <<META
         "keypair": "${IAM_KEYNAME}",
         "fingerprint": "${IAM_PRINT}",
         "pem": "${IAM_PEM_ESC}"
+    },"aws": {
+        "uri": "http://${AWS_PROJECT}.signin.aws.amazon.com/console",
+        "region": "${AWS_REGION}"
     }
   }
 }

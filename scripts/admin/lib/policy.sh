@@ -49,4 +49,6 @@ EOT
 
 RESPONSE=$(aws iam put-user-policy --user-name ${_USER} --policy-name "${_USER}.access" --policy-document file://Policy.json)
 
+rm -rf Policy.json
+
 }

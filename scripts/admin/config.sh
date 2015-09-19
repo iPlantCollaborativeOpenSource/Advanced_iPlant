@@ -10,6 +10,7 @@ AGAVE_TENANTID=$(auth-check -v | jq -r .tenantid)
 
 # AWS Globals
 AWS_PROJECT="iplant-aws"
+AWS_REGION="us-west-1"
 # User identity. GROUP and UNAME are initialized elsewhere
 IAM_GRUPO="${GROUP}"
 IAM_USER="${UNAME}.${AGAVE_TENANTID}"

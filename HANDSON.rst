@@ -17,13 +17,14 @@ In this exercise, you will bring resources from Amazon Web Services into iPlant,
 Setting up your environment
 ---------------------------
 
-**Preparing Docker**
+**Preparing to use Docker**
 
-First, open two UNIX terminal windows, each with access to Docker. The way you do this varies by platform:
+First, open **two** UNIX terminal windows, each with access to Docker. The way you do this varies by platform:
 
 1. If you are on **Mac or Windows and using Kitematic**, click the **[DOCKER CLI]** button two times.
-2. If you are on a Mac, Windows or Linux system using **Docker Toolbox**, click the Docker Quickstart Terminal icon twice to launch the two windows
+2. If you are on **Mac or Windows using **Docker Toolbox**, click the Docker Quickstart Terminal icon twice to launch the two windows
 3. If you are on **Linux with Docker installed natively**, open two terminal sessions
+4. If you are on **Mac or Linux using a VM to run Linux**, follow Linux-native instructions entirely within your VM
 
 **Launching an Agave CLI container**
 
@@ -31,16 +32,16 @@ Choose one (but not both) of your Docker-enabled terminal sessions. Enter the fo
 
 ``docker run -it --rm=true -v $HOME/.agave:/root/.agave -v `pwd`:/home iplantc/agave-cli bash``
 
-This launches a container running the latest release of the iPlant flavor of the ``agave-cli``. It mounts Agave's local "cache" directory and also mounts your **current working directory** under ``/home`` inside the container.
+This launches a container running the latest release of the iPlant flavor of the ``agave-cli``. It mounts Agave's local "cache" directory and also mounts the **current working directory** under ``/home`` inside the container. Check the contents of ``/home`` to see the contents of your host's filesystem.
 
 Retrieving your AWS credentials
 -------------------------------
 
-The iPlant team has created a set of credentials for each workshop attendee and stored it in the Agave document store. In the next steps, you will retrieve that information so it can be used later. If you have your own AWS credentials you'd prefer to use, talk to the instructors and we'll get you set up.
+The iPlant team has created a set of credentials for each workshop attendee and stored it in the `Agave document store<http://preview.agaveapi.co/documentation/tutorials/metadata-management-tutorial/>`_. In the next steps, you will retrieve that information yo can use it later. If you have your own AWS credentials you'd prefer to use, talk to the instructors and we'll get you set up.
 
 **Query the iPlant Agave metadata service**
 
-In the Agave CLI window, enter the following command, **substituting IPLANT_USERNAME for your own iPlant username**. Pay careful attention to the use of single and double quotes!
+In the Agave CLI window, enter the following command, **substituting IPLANT_USERNAME with your own iPlant username**. Pay careful attention to the use of single and double quotes!
 
 ``metadata-list -v -Q '{"name":"iplant-aws.dib-train-0923.IPLANT_USERNAME"}'``
 
@@ -70,13 +71,13 @@ You should get a response back that looks like this (abbreviated) JSON document:
             }
         }}]
 
-This document contains every detail you need to interact with iPlant's AWS account. Let's take a minute to learn how to pull key bits out for use in scripting. We will use the *jq* parser, which is installed by default in the iPlant Agave CLI image.
+This document contains every detail you need to interact with iPlant's AWS account. Let's take a minute to learn how to pull key bits out for use in scripting. We will use the *`jq<https://stedolan.github.io/jq/tutorial/>`_* parser, which is installed by default in the iPlant Agave CLI image.
 
 Change into /home in the container, then pipe the document out to a file.
 
 ``cd /home && metadata-list -v -Q '{"name":"iplant-aws.dib-train-0923.IPLANT_USERNAME"}' > my-aws-creds.json``
 
-The resulting JSON document contains an array consisting of one object with several keys. Some of the keys have children. Here's how to extract the *iam_user*, which is your AWS login, from the document:
+The JSON file **my-aws-creds.json** contains an array consisting of one object with several keys. Some of those keys have children. Here's how to use **jq** to extract the *iam_user*, which is your AWS username, from the document:
 
 ``jq -r .[0].value.identity.iam_user my-aws-creds.json``
 
@@ -88,14 +89,24 @@ You should get back ``IPLANT_USERNAME.iplantc.org``
 2. Find your IAM password
 3. Find out who is the *owner* of the JSON document that was shared with you
 4. What is the *uuid* of the document?
-5. Bonus: Use ``metadata-pems-list`` to find out if anyone else had read permission on this document
+5. Bonus: Use ``metadata-pems-list`` to find out if anyone else has read permission on this document
 
 **Explore the AWS Console**
 
-Use iam_username and iam_password to log into https://iplant-aws.signin.aws.amazon.com/console
+Using your iam_username and iam_password, log into ``https://iplant-aws.signin.aws.amazon.com/console``
 
-Using AWS S3 for storage with Agave
------------------------------------
+**Exercises:**
+
+1. Try to look inside other people's S3 buckets. Can you? Can you look in your own?
+2. Create a directory in your S3 bucket and upload a small file to it.
+3. Try to inspect a running EC2 instance running. What is its public IP address?
+
+Optional: Using AWS S3 for storage with Agave
+---------------------------------------------
+
+In addition to the iPlant Data Store (data.iplantcollaborative.org), Agave lets you manage data stored on other iRODS, FTP, SFTP, and gridFTP servers plus the Amazon S3 and Microsoft Azure Blob cloud providers (coming soon: support for Dropbox, Box, and Google Drive). Enrolling your data storage resources with Agave lets you easily and quickly script movement of data from site to site in your research workflow, while maintaining detailed provenance tracking of every data action you take. It also provides a unified namespace for all of your data.
+
+You will now create and exercise an Amazon S3-based storage resource, then interact with it. If you're interested in working with your own storage systems, make sure to check out the `System Management Tutorial<http://preview.agaveapi.co/documentation/tutorials/system-management-tutorial/>`_ at the Agave developer's portal.
 
 **Set up an Agave storageSystem**
 
