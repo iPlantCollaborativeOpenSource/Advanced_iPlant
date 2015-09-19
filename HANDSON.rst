@@ -37,7 +37,7 @@ This launches a container running the latest release of the iPlant flavor of the
 Retrieving your AWS credentials
 -------------------------------
 
-The iPlant team has created a set of credentials for each workshop attendee and stored it in the `Agave document store<http://preview.agaveapi.co/documentation/tutorials/metadata-management-tutorial/>`_. In the next steps, you will retrieve that information yo can use it later. If you have your own AWS credentials you'd prefer to use, talk to the instructors and we'll get you set up.
+The iPlant team has created a set of credentials for each workshop attendee and stored it in the `Agave document store <http://preview.agaveapi.co/documentation/tutorials/metadata-management-tutorial/>`_. In the next steps, you will retrieve that information yo can use it later. If you have your own AWS credentials you'd prefer to use, talk to the instructors and we'll get you set up.
 
 **Query the iPlant Agave metadata service**
 
@@ -71,7 +71,7 @@ You should get a response back that looks like this (abbreviated) JSON document:
             }
         }}]
 
-This document contains every detail you need to interact with iPlant's AWS account. Let's take a minute to learn how to pull key bits out for use in scripting. We will use the *`jq<https://stedolan.github.io/jq/tutorial/>`_* parser, which is installed by default in the iPlant Agave CLI image.
+This document contains every detail you need to interact with iPlant's AWS account. Let's take a minute to learn how to pull key bits out for use in scripting. We will use the `jq <https://stedolan.github.io/jq/tutorial/>`_ parser, which is installed by default in the iPlant Agave CLI image.
 
 Change into /home in the container, then pipe the document out to a file.
 
@@ -106,7 +106,7 @@ Optional: Using AWS S3 for storage with Agave
 
 In addition to the iPlant Data Store (data.iplantcollaborative.org), Agave lets you manage data stored on other iRODS, FTP, SFTP, and gridFTP servers plus the Amazon S3 and Microsoft Azure Blob cloud providers (coming soon: support for Dropbox, Box, and Google Drive). Enrolling your data storage resources with Agave lets you easily and quickly script movement of data from site to site in your research workflow, while maintaining detailed provenance tracking of every data action you take. It also provides a unified namespace for all of your data.
 
-You will now create and exercise an Amazon S3-based storage resource, then interact with it. If you're interested in working with your own storage systems, make sure to check out the `System Management Tutorial<http://preview.agaveapi.co/documentation/tutorials/system-management-tutorial/>`_ at the Agave developer's portal.
+You will now create and exercise an Amazon S3-based storage resource, then interact with it. If you're interested in working with your own storage systems, make sure to check out the `System Management Tutorial <http://preview.agaveapi.co/documentation/tutorials/system-management-tutorial/>`_ at the Agave developer's portal.
 
 **Set up an Agave storageSystem**
 
