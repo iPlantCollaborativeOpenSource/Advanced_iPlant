@@ -46,7 +46,7 @@ In the Agave CLI window, enter the following command, **substituting IPLANT_USER
 
 You should get a response back that looks like this (abbreviated) JSON document:
 
-.. code:block:: json
+.. code-block:: json
 
     [
     {
@@ -108,20 +108,33 @@ Using AWS S3 for storage with Agave
 Using AWS EC2 for computing with Agave
 --------------------------------------
 
-**Launch a Docker-enabled VM at AWS using Docker Machine**
+**Launch a Docker-enabled VM**
+
+Docker Machine lets you provision Docker-enabled hosts on Amazon EC2, Microsoft Azure, DigitalOcean, Google, and Rackspace commerical clouds as well as on private clouds powered by Openstack, Virtualbox, and VMware. You will use it to create one on Amazon EC2.
+
+Set some environment variables by entering the following commands into the *second* Docker-enabled terminal (not the one running agave-cli), subsituting the appropriate values for ``DEMO_VM``, ``IAM_KEY``, and ``IAM_SECRET``.
 
 .. code-block:: bash
 
-  export IAM_KEY=*your
-  export DEMO_VM=pick_a_name
+  export DEMO_VM="pick_a_name"
+  export IAM_KEY="Your apikeys.key"
+  export IAM_SECRET="Your apikeys.secret"
+  export AMI="ami-942717d1"
+  export REGION="us-west-1"
+  export VPC="vpc-78e7521d"
+
+Now, in the same Docker-enabled window, enter this ``docker-machine`` command:
+
+.. code-block:: bash
+
   docker-machine create --driver amazonec2 \
-        --amazonec2-access-key AKIAJXPAEHZILERLYJVQ \
+        --amazonec2-access-key "${IAM_KEY}" \
+        --amazonec2-secret-key "${IAM_SECRET}"  \
+        --amazonec2-ami "${AMI}" \
+        --amazonec2-vpc-id "${VPC}"  \
+        --amazonec2-region "${REGION} \
         --amazonec2-instance-type t2.micro  \
         --amazonec2-root-size 16  \
-        --amazonec2-secret-key "4NLizA1RNVWH4IBfAVQn+7B2TojO2s0WFaGmEF81"  \
-        --amazonec2-vpc-id vpc-54e81031  \
-        --amazonec2-region "us-west-1" \
-        --amazonec2-ami "ami-942717d1" \
         $DEMO_VM
 
 **Set up your VM as an Agave executionSystem**
