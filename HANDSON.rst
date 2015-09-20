@@ -183,7 +183,7 @@ Upload some files from the ``scripts/assets`` directory
 
     files-upload -F scripts/assets/244.txt.utf-8 -S $S3_SYSTEM  .
     files-upload -F scripts/assets/lorem-gibson.txt -S $S3_SYSTEM .
-    files-upload -F scripts/assets/images/sadkitten.jpg -S $S3_SYSTEM .
+    files-upload -F scripts/assets/images/doge.jpg -S $S3_SYSTEM .
 
 **List the contents on your Agave storage systems**
 
@@ -205,6 +205,17 @@ Optional Exercise2:
 2. Re-run one or both of the ``files-list`` command with the ``-V`` verbose flag. Is there enough information returned to create a file browser-like user interface?
 
 **Share a file with a friend**
+
+I have shared a very sad picture with the general public: You should be able to list and download it, but go ahead and try to delete it - I dare you.
+
+.. code-block:: bash
+
+    files-list -S s3-demo-03.iplantc.org sadkitten.jpg
+    files-get -S s3-demo-03.iplantc.org sadkitten.jpg
+    files-delete -S s3-demo-03.iplantc.org sadkitten.jpg
+
+Turn to your right, find out that person's iplant username. Share a file with them in either iDS or your S3 volume.
+
 
 Using AWS EC2 for computing with Agave
 --------------------------------------

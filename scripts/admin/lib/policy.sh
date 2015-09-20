@@ -2,6 +2,7 @@ attach_policy () {
 
 local _USER=$1
 local _GROUP=$2
+local _S3=$3
 
 log "Attaching policy to ${_GROUP}/${_USER}..."
 RESPONSE=
@@ -24,7 +25,7 @@ sh -c "cat > Policy.json" <<EOT
                 "s3:ListBucket"
             ],
             "Resource": [
-                "arn:aws:s3:::${_GROUP}-${_USER}*"
+                "arn:aws:s3:::${S3_BUCKET_NAME}*"
             ]
         },
         {
@@ -35,7 +36,7 @@ sh -c "cat > Policy.json" <<EOT
                 "s3:DeleteObject"
             ],
             "Resource": [
-                "arn:aws:s3:::${_GROUP}-${_USER}*"
+                "arn:aws:s3:::${S3_BUCKET_NAME}*"
             ]
         },
         {

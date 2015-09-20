@@ -22,6 +22,8 @@ IAM_SECRET=
 IAM_PEM=
 IAM_PRINT=
 IAM_KEYNAME="${IAM_GRUPO}.${UNAME}"
+# assets
+S3_BUCKET_NAME="${IAM_GRUPO}.${IAM_USER}"
 
 # User-specific key for storing a credential document in Agave document store
 AGAVE_META_ID="${AWS_PROJECT}.${IAM_KEYNAME}"

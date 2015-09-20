@@ -14,10 +14,13 @@ validate_agave_user "${UNAME}"
 validate_aws_group "${GROUP}" "${UNAME}"
 
 create_user "${IAM_USER}"
-attach_policy "${IAM_USER}" "${IAM_GRUPO}"
+attach_policy "${IAM_USER}" "${IAM_GRUPO}" "${S3_BUCKET_NAME}"
 init_password "${IAM_USER}"
+
+# assets
 create_apikeys "${IAM_USER}"
 create_keypair "${IAM_KEYNAME}"
+create_s3_bucket "${S3_BUCKET_NAME}" "${AWS_REGION}"
 
 # Only write the metadata record if we have all the secrets in hand
 if [[ -n "${IAM_PEM}" ]] && [[ -n "${IAM_SECRET}" ]] && [[ -n "${IAM_PASS}" ]];

@@ -17,3 +17,5 @@ if [[ -n "${AGAVE_META_ID}" ]];
 then
     delete_metadata "${AGAVE_META_ID}"
 fi
+
+delete_s3_bucket "${S3_BUCKET_NAME}"

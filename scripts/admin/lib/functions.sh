@@ -12,4 +12,4 @@ source "$CDIR/create_apikeys.sh"
 source "$CDIR/create_keypair.sh"
 source "$CDIR/persist_meta.sh"
 source "$CDIR/delete.sh"
-
+source "$CDIR/manage_s3.sh"

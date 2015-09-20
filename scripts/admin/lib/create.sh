@@ -57,8 +57,10 @@ create_user () {
 validate_aws_group () {
 
     local _GROUP=$1
+    local _UNAME=$2
+
     if [[ -z "${_GROUP}" ]];
     then
-        failure "Please specify a group name that the ${UNAME} should be assigned to"
+        failure "Please specify a group name that the ${_UNAME} should be assigned to"
     fi
 }
