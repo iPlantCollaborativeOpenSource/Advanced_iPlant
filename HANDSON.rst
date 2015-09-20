@@ -298,5 +298,5 @@ If you haven't already, in your **agave-cli** window, check out this git reposit
 NOTES
 -----
 
-Implement a cloudrunner example
-Implement a more specialized version of it with parameters to run one specific program
+- Implement a cloudrunner example
+- Implement a more specialized version of it with parameters to run one specific program
