@@ -28,7 +28,7 @@ then
 
 log "Writing Metadata file..."
 
-IAM_PEM_ESC=$(jsonpki.sh --private ${IAM_KEYNAME}.pem)
+IAM_PEM_ESC=$(jsonpki.sh --private ${IAM_KEYNAME}.pem | sed 's|\\|\\\\|g')
 
 sh -c "cat > Meta.json" <<META
 { "name":"${AGAVE_META_ID}",
@@ -46,7 +46,8 @@ sh -c "cat > Meta.json" <<META
         "pem": "${IAM_PEM_ESC}"
     },"aws": {
         "uri": "http://${AWS_PROJECT}.signin.aws.amazon.com/console",
-        "region": "${AWS_REGION}"
+        "region": "${AWS_REGION}",
+        "s3": "s3://${S3_BUCKET_NAME}"
     }
   }
 }

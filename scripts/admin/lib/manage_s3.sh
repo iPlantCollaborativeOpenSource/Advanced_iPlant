@@ -35,14 +35,7 @@ delete_s3_bucket () {
     if [[ -z "${RESPONSE}" ]];
     then
         warning "Can't list s3://${BUCKET_NAME} - does it really exist?"
-    else
         RESPONSE=$(aws s3 rb "s3://${BUCKET_NAME}" --force 2> /dev/null)
-        if [[ -n "$RESPONSE" ]];
-        then
-            success "s3://${BUCKET_NAME} was deleted."
-        else
-            warning "s3://${BUCKET_NAME} may not have been deleted."
-        fi
+        log "$RESPONSE"
     fi
-
 }

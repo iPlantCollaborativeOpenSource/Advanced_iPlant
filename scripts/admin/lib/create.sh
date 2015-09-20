@@ -61,6 +61,6 @@ validate_aws_group () {
 
     if [[ -z "${_GROUP}" ]];
     then
-        failure "Please specify a group name that the ${_UNAME} should be assigned to"
+        failure "Please provide a group name that the ${_UNAME} should be assigned to"
     fi
 }
