@@ -103,14 +103,18 @@ Using your iam_username and iam_password, log into ``https://iplant-aws.signin.a
 
 **Check out the workshop material from Github**
 
-The iPlant team has prepared several useful utility files and scripts to help with the objectives of the workshop. In the **agave-cli** Docker container, cd into **/home**, check out the repository for this workshop, and **cd into Advanced_iPlant**.
+The iPlant team has prepared several useful utility files and scripts to help with the objectives of the workshop. In the **agave-cli** Docker container
 
-``git checkout https://github.com/iPlantCollaborativeOpenSource/Advanced_iPlant``
+1. cd into **/home**
+2. check out the repository ``git checkout https://github.com/iPlantCollaborativeOpenSource/Advanced_iPlant``
+3. **cd into Advanced_iPlant**
+
+You will be working out of this directory exclusively in all other parts of the workshop.
 
 Optional: Using AWS S3 for storage with Agave
 ---------------------------------------------
 
-Besides the iPlant Data Store (data.iplantcollaborative.org), the Agave APIs let you manage data stored on other iRODS, FTP, SFTP, and gridFTP servers plus the Amazon S3 and Microsoft Azure Blob cloud providers (coming soon: support for Dropbox, Box, and Google Drive). Enrolling your data storage resources with Agave lets you easily and quickly script movement of data from site to site in your research workflow, while maintaining detailed provenance tracking of every data action you take. It also provides a unified namespace for all of your data.
+In addition to the iPlant Data Store (data.iplantcollaborative.org), the Agave APIs let you manage data stored on other iRODS, FTP, SFTP, and gridFTP servers plus the Amazon S3 and Microsoft Azure Blob cloud providers (coming soon: support for Dropbox, Box, and Google Drive). Enrolling your data storage resources with Agave lets you easily and quickly script movement of data from site to site in your research workflow, while maintaining detailed provenance tracking of every data action you take. It also provides a unified namespace for all of your data.
 
 You will now create and exercise an Amazon S3-based storage resource, then interact with it. If you're interested in working with your own storage systems, make sure to check out the `System Management Tutorial <http://preview.agaveapi.co/documentation/tutorials/system-management-tutorial/>`_ at the Agave developer's portal.
 
@@ -157,17 +161,48 @@ This script uses the environment variables to turn a template file (``scripts/te
 
 Re-run the script, redirecting the output to a file ``scripts/make_s3_description.sh > my-s3.json``, then register the system with the Agave systems API
 
-```systems-addupdate -v -F my-s3.json``
+``systems-addupdate -v -F my-s3.json``
+
+You should see a message like ``Successfully added system IPLANT_USERNAME-s3-storage`` (Contact an instructor if you do not!) Go ahead and set an environment variable: ``export S3_SYSTEM=IPLANT_USERNAME-s3-storage``.
 
 Exercises:
 
-1. Retrieve a detailed description of **data.iplantcollaborative.org** using the verbose option of ``systems-list``. What storage protocol does the iPlant Data Store use? What kind of authentication?
+1. Retrieve a detailed description of **data.iplantcollaborative.org** (hint: use the verbose option of ``systems-list``):
+
+- What storage protocol does the iPlant Data Store use?
+- What kind of authentication?
+
 2. What other public storage systems are enrolled with iPlant (hint: use the -S -P flags)
 3. Can you find your new S3 system in the listing of public systems? Why not?
 
 **Upload some data**
 
-**List the contents on your AWS bucket**
+Upload some files from the ``scripts/assets`` directory
+
+.. code-block:: bash
+
+    files-upload -F scripts/assets/244.txt.utf-8 -S $S3_SYSTEM  .
+    files-upload -F scripts/assets/lorem-gibson.txt -S $S3_SYSTEM .
+    files-upload -F scripts/assets/images/sadkitten.jpg -S $S3_SYSTEM .
+
+**List the contents on your Agave storage systems**
+
+List your iPlant Data Store home directory:
+
+``files-list IPLANT_USERNAME``
+
+You should see all the directories and files you're used to seeing in the iPlant Discovery Environment.
+
+List your new S3-based storage resource:
+
+``files-list -S $S3_SYSTEM .``
+
+What are the differences between how you list a public system like the Data Store and a private system?
+
+Optional Exercise2:
+
+1. Visit the `S3 Management Console <https://console.aws.amazon.com/s3/home>`_ and verify that your files were uploaded and that you can view them.
+2. Re-run one or both of the ``files-list`` command with the ``-V`` verbose flag. Is there enough information returned to create a file browser-like user interface?
 
 **Share a file with a friend**
 
