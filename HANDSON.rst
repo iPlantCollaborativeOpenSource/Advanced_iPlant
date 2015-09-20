@@ -12,7 +12,7 @@ iPlant offers a set of APIs, known as the Agave APIs. They allow you scriptable 
 * Share nearly any data or resource in iPlant with other people
 * Share nearly any data or resource on your own computing and storage resources with other people
 
-In this exercise, you will bring resources from Amazon Web Services into iPlant, run an application on them, store the results in iPlant Data Store, and share them with a friend.
+In this exercise, you will bring resources from Amazon Web Services into iPlant, run an application on them, store the results in iPlant Data Store (iDS), and share them with a friend.
 
 Setting up your environment
 ---------------------------
@@ -114,7 +114,7 @@ You will be working out of this directory exclusively in all other parts of the 
 Optional: Using AWS S3 for storage with Agave
 ---------------------------------------------
 
-In addition to the iPlant Data Store (data.iplantcollaborative.org), the Agave APIs let you manage data stored on other iRODS, FTP, SFTP, and gridFTP servers plus the Amazon S3 and Microsoft Azure Blob cloud providers (coming soon: support for Dropbox, Box, and Google Drive). Enrolling your data storage resources with Agave lets you easily and quickly script movement of data from site to site in your research workflow, while maintaining detailed provenance tracking of every data action you take. It also provides a unified namespace for all of your data.
+In addition to the iDS (data.iplantcollaborative.org), the Agave APIs let you manage data stored on other iRODS, FTP, SFTP, and gridFTP servers plus the Amazon S3 and Microsoft Azure Blob cloud providers (coming soon: support for Dropbox, Box, and Google Drive). Enrolling your data storage resources with Agave lets you easily and quickly script movement of data from site to site in your research workflow, while maintaining detailed provenance tracking of every data action you take. It also provides a unified namespace for all of your data.
 
 You will now create and exercise an Amazon S3-based storage resource, then interact with it. If you're interested in working with your own storage systems, make sure to check out the `System Management Tutorial <http://preview.agaveapi.co/documentation/tutorials/system-management-tutorial/>`_ at the Agave developer's portal.
 
@@ -169,7 +169,7 @@ Exercises:
 
 1. Retrieve a detailed description of **data.iplantcollaborative.org** (hint: use the verbose option of ``systems-list``):
 
-- What storage protocol does the iPlant Data Store use?
+- What storage protocol does the iDS use?
 - What kind of authentication?
 
 2. What other public storage systems are enrolled with iPlant (hint: use the -S -P flags)
@@ -187,11 +187,11 @@ Upload some files from the ``scripts/assets`` directory
 
 **List the contents on your Agave storage systems**
 
-List your iPlant Data Store home directory:
+List your iDS home directory:
 
 ``files-list IPLANT_USERNAME``
 
-You should see all the directories and files you're used to seeing in the iPlant Discovery Environment.
+You should see the directories and files you're used to seeing in the iPlant Discovery Environment.
 
 List your new S3-based storage resource:
 
@@ -199,14 +199,14 @@ List your new S3-based storage resource:
 
 What are the differences between how you list a public system like the Data Store and a private system?
 
-Optional Exercise2:
+Optional Exercises:
 
 1. Visit the `S3 Management Console <https://console.aws.amazon.com/s3/home>`_ and verify that your files were uploaded and that you can view them.
 2. Re-run one or both of the ``files-list`` command with the ``-V`` verbose flag. Is there enough information returned to create a file browser-like user interface?
 
 **Share a file with a friend**
 
-I have shared a very sad picture with the general public: You should be able to list and download it, but go ahead and try to delete it - I dare you.
+We have shared a very sad picture with the public: You should be able to list and download it, but go ahead and try to delete it - we dare you!
 
 .. code-block:: bash
 
@@ -214,15 +214,44 @@ I have shared a very sad picture with the general public: You should be able to 
     files-get -S s3-demo-03.iplantc.org sadkitten.jpg
     files-delete -S s3-demo-03.iplantc.org sadkitten.jpg
 
-Turn to your right, find out that person's iplant username. Share a file with them in either iDS or your S3 volume.
+Find out that a friends person's iPlant username. Share a file with them in the iDS and your S3 volume. Have them do the same. Give your friend READ_WRITE permission on a folder in your iPlant Data Store and have them upload a file. Can you see the file?
 
+Here's an example of iPlant users vaughn and jfonner sharing some data:
+
+.. code-block:: bash
+
+    # vaughn grants jfonner READ access on a file in the iDS
+     [vaughn@iplantc]: files-pems-update -U jfonner -P READ -S mwvaughn-s3-storage picksumipsum.txt
+    # vaughn grants jfonner READ_WRITE access to a directory in iDS
+     [vaughn@iplantc]: files-pems-update -U jfonner -P READ_WRITE vaughn/collab/
+    # jfonner lists vaughn's files in collab
+     [jfonner@iplantc]: files-list vaughn/collab/
+    # jfonner views a file in vaughn/collab
+     [jfonner@iplantc]: files-get -P vaughn/collab/darwin5.txt
+    # jfonner grants vaughn READ access on an iDS file
+     [jfonner@iplantc]: files-pems-update -U vaughn -P READ jfonner/lamarck5.txt
+    # vaughn copies the file into his collab folder
+     [vaughn@iplantc]: files-copy -D vaughn/collab/lamarck.txt jfonner/lamarck5.txt
+    # jfonner uploads a new file to vaughn's collab folder
+     [jfonner@iplantc]: files-upload -F wallace5.txt vaughn/collab/
 
 Using AWS EC2 for computing with Agave
 --------------------------------------
 
+Agave allows you to connect to 3rd party computing resources and do work on them. These can be traditional HPC systems that are managed by schedulers such as SGE or SLURM, Condor grids (like the one the Discovery Environment uses), or simple machines that allow SSH access. This workshop focuses on a special, powerful case of the latter, a virtual machine running on Amazon EC2 with Docker installed on it. If you're interested connecting other types of computing systems, make sure to check out the `System Management Tutorial <http://preview.agaveapi.co/documentation/tutorials/system-management-tutorial/>`_ at the Agave developer's portal.
+
+**Five Easy Steps:**
+
+1. Launch a virtual machine on Amazon
+2. Provision it with Docker support
+3. Tell Agave about this new computing resource
+4. Tell Agave about a simple Python application that can run on the resource
+5. Run an actual compute task on the resource using Agave
+6. Learn about the GUI features in the iPlant Discovery Environment that support Agave apps
+
 **Launch a Docker-enabled VM**
 
-Docker Machine lets you provision Docker-enabled hosts on Amazon EC2, Microsoft Azure, DigitalOcean, Google, and Rackspace commerical clouds as well as on private clouds powered by Openstack, Virtualbox, and VMware. You will use it to create one on Amazon EC2.
+Docker Machine lets you provision Docker-enabled hosts on Amazon EC2, Microsoft Azure, DigitalOcean, Google, and Rackspace commerical clouds as well as on private clouds powered by Openstack, Virtualbox, and VMware. You will use it to create one on Amazon EC2, taking care of steps 1 and 2 from the list.
 
 Set some environment variables by entering the following commands into the *second* Docker-enabled terminal (not the one running agave-cli), subsituting the appropriate values for ``DEMO_VM``, ``IAM_KEY``, and ``IAM_SECRET``.
 
@@ -249,9 +278,9 @@ Now, in the same Docker-enabled window, enter this ``docker-machine`` command:
         --amazonec2-root-size 16  \
         $DEMO_VM
 
-**Set up your VM as an Agave executionSystem**
+**Set up your cloud host as an Agave executionSystem**
 
-**Share access to your VM with a friend**
+**Optional: Share access to your cloud host with a friend**
 
 Creating an Agave application and running a job
 -----------------------------------------------
@@ -262,6 +291,7 @@ An Agave application consists of:
 2. The physical assets that have to be installed on the remote system to enable that command. These can be binary files, reference data sets, or instructions for procuring these items.
 3. Some structured metadata, posted to the Agave *apps* service that describes the system- and run-time parameters needed to run the command
 
-Check out the following Git repository and ``cd`` into it:
+If you haven't already, in your **agave-cli** window, check out this git repository and ``cd`` into it:
 
 ``git checkout https://github.com/iPlantCollaborativeOpenSource/Advanced_iPlant``
+
