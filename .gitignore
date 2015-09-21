@@ -4,3 +4,5 @@ Policy.json
 Meta.json
 .DS_Store
 .agave
+*output*
+job-*

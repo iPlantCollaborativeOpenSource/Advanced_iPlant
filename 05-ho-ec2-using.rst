@@ -24,13 +24,37 @@ We represent the structured metadata in JSON format, as that is what Agave servi
 First, an example
 -----------------
 
-Discover an app, run a job, get the results
-
-apps-list -n pyplot
-apps-list -v demo-pyplot-demo-advanced-0.1.0u1
-
-
 In your **agave-cli** terminal window, make sure you are in ``/home/Advanced_iPlant``
+
+.. code-block:: bash
+    # Find an app named pyplot
+    [agave-cli:root@docker] apps-list -n pyplot
+        demo-pyplot-demo-advanced-0.1.0u1
+        pyplot-demo-0.2.0u2
+    # View details about the app - inputs, params, etc
+    [agave-cli:root@docker] apps-list -v pyplot-demo-0.2.0u2
+        {"_links": {
+            "executionSystem": {
+                "href": "https://agave.iplantc.org/systems/v2/docker.iplantcollaborative.org"
+            }...
+    # Submit a job
+    [agave-cli:root@docker] jobs-submit -F apps/pyplot-demo-0.2.0/demo-job.json
+        Successfully submitted job 4425653391032380955-e0bd34dffff8de6-0001-007
+    # Check job status. Should take ~30 sec
+    [agave-cli:root@docker] jobs-status -v 4425653391032380955-e0bd34dffff8de6-0001-007
+        {
+            "_links": {
+                "self": {
+                    "href": "https://agave.iplantc.org/jobs/v2/4425653391032380955-e0bd34dffff8de6-0001-007"
+                }
+            },
+            "id": "4425653391032380955-e0bd34dffff8de6-0001-007",
+            "status": "FINISHED"
+        }
+    # Retrieve results
+    [agave-cli:root@docker] jobs-output-get -r 4425653391032380955-e0bd34dffff8de6-0001-007 output
+
+There should be a folder full of PNG files showing off some ancient stock price data inside the output directory. Boom - plotting as a service!
 
 -------------------------------------------
 

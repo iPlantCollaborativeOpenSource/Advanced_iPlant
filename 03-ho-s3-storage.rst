@@ -24,7 +24,7 @@ In your **agave-cli** window, set the following environment variables:
 
 Make sure you're in the **/home/Advanced_iPlant** directory and run the following command:
 
-``scripts/make_s3_description.sh``
+``scripts/make_store_s3.sh``
 
 This script uses the environment variables you just set to turn a template file (``scripts/templates/systems/s3-storage.tpl``) into a functional **Agave system description**. Run without a redirect, it prints text to the screen, so you should see something resembling the following:
 
@@ -53,7 +53,7 @@ This script uses the environment variables you just set to turn a template file 
         "type": "STORAGE"
     }
 
-Re-run the script, redirecting the output to a file ``scripts/make_s3_description.sh > my-s3.json``, then register the system with the Agave systems API
+Re-run the script, redirecting the output to a file ``scripts/make_store_s3.sh > my-s3.json``, then register the system with the Agave systems API
 
 ``systems-addupdate -v -F my-s3.json``
 

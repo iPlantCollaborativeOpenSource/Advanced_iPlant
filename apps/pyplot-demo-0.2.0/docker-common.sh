@@ -17,7 +17,7 @@ MYUID=$(id -u $USER)
 STAMP=$(date +%s)
 HOST_OPTS="-m=1g"
 # Run as user
-HOST_OPTS="$HOST_OPTS -u=$MYUID"
+# HOST_OPTS="$HOST_OPTS -u=$MYUID"
 # Restruct network
 HOST_OPTS="$HOST_OPTS --net=none"
 # Maximum life for your app container

@@ -102,9 +102,9 @@ Set up your cloud host as an Agave executionSystem
 
 Congratulations: you've got Docker going in the cloud. Your code portability and scaling problems are coming to an end. Now, we need to tell Agave about your Docker host so that you can send code and data to it as part of your workflow. In your Docker terminal (not the agave-cli) window, and make sure you're cd-ed in the Advanced_iPlant directory. Run the following:
 
-``scripts/make-docker-description.sh $DOCKER_MACHINE_NAME $IPLANT_USERNAME``
+``scripts/make-exec-docker.sh $DOCKER_MACHINE_NAME $IPLANT_USERNAME``
 
-The ``make-docker-description.sh`` script uses environment variables to turn a template file (``scripts/templates/systems/execution.tpl``) into a functional **Agave system description**. Run without a redirect, it prints text to the screen, so you should see something resembling the following abbreviated example.
+The ``make-exec-docker.sh`` script uses environment variables to turn a template file (``scripts/templates/systems/execution.tpl``) into a functional **Agave system description**. Run without a redirect, it prints text to the screen, so you should see something resembling the following abbreviated example.
 
 .. code-block:: json
 
@@ -126,7 +126,7 @@ The ``make-docker-description.sh`` script uses environment variables to turn a t
         }
     }
 
-Re-run the script, redirecting the output to a file ``scripts/make-docker-description.sh $DOCKER_MACHINE_NAME $IPLANT_USERNAME > my-ec2.json``, then register the system with the Agave systems API
+Re-run the script, redirecting the output to a file ``scripts/make-exec-docker.sh $DOCKER_MACHINE_NAME $IPLANT_USERNAME > my-ec2.json``, then register the system with the Agave systems API
 
 ``systems-addupdate -v -F my-ec2.json``
 
