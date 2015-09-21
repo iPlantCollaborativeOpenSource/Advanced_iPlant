@@ -30,9 +30,9 @@ First, open **two** UNIX terminal windows, each with access to Docker. The way y
 
 Choose one (but not both) of your Docker-enabled terminal sessions. Enter the following text exactly:
 
-``docker run -it --rm=true -v $HOME/.agave:/root/.agave -v `pwd`:/home iplantc/agave-cli bash``
+``docker run -it --rm=true -v $HOME/.agave:/root/.agave -v $HOME:/home iplantc/agave-cli bash``
 
-This launches a container running the latest release of the iPlant flavor of the ``agave-cli``. It mounts Agave's local "cache" directory and also mounts the **current working directory** under ``/home`` inside the container. Check the contents of ``/home`` to see the contents of your host's filesystem.
+This launches a container running the latest release of the iPlant flavor of the ``agave-cli``. It mounts Agave's local "cache" directory and also mounts **your local home directory** under ``/home`` inside the container. Check the contents of ``/home`` to verify that you can see your own files and folders.
 
 Retrieving your AWS credentials
 -------------------------------
@@ -99,14 +99,14 @@ The iPlant team has prepared several useful utility files and scripts to help wi
 2. check out the repository ``git checkout https://github.com/iPlantCollaborativeOpenSource/Advanced_iPlant``
 3. **cd into Advanced_iPlant**
 
-You will be working out of this directory exclusively in all other parts of the workshop.
+You will be working out of this directory exclusively for the rest of the workshop.
 
 Optional: Using AWS S3 for storage with Agave
 ---------------------------------------------
 
 In addition to the iDS (data.iplantcollaborative.org), the Agave APIs let you manage data stored on other iRODS, FTP, SFTP, and gridFTP servers plus the Amazon S3 and Microsoft Azure Blob cloud providers (coming soon: support for Dropbox, Box, and Google Drive). Enrolling your data storage resources with Agave lets you easily and quickly script movement of data from site to site in your research workflow, while maintaining detailed provenance tracking of every data action you take. It also provides a unified namespace for all of your data.
 
-You will now create and exercise an Amazon S3-based storage resource, then interact with it. If you're interested in working with your own storage systems, make sure to check out the `System Management Tutorial <http://preview.agaveapi.co/documentation/tutorials/system-management-tutorial/>`_ at the Agave developer's portal.
+You will create and exercise an Amazon S3-based storage resource, then interact with it. If you're interested in working with your own storage systems, make sure to check out the `System Management Tutorial <http://preview.agaveapi.co/documentation/tutorials/system-management-tutorial/>`_ at the Agave developer's portal.
 
 **Set up an Agave storageSystem**
 
@@ -117,12 +117,13 @@ In your agave-cli Docker container window, set the following environment variabl
   export DEMO_S3_BUCKET="Your S3 bucket name"
   export IAM_KEY="Your apikeys.key"
   export IAM_SECRET="Your apikeys.secret"
+  export IPLANT_USERNAME=$(auth-check | grep username | awk '{print $2}')
 
 Make sure you're in the **Advanced_iPlant** directory and run the following command from the **agave-cli container**.
 
 ``scripts/make_s3_description.sh``
 
-This script uses the environment variables to turn a template file (``scripts/templates/systems/s3-storage.tpl``) into a functional **Agave system description**. Run without a redirect, it prints text to the screen, so you should see something resembling the following:
+This script uses the environment variables you just set to turn a template file (``scripts/templates/systems/s3-storage.tpl``) into a functional **Agave system description**. Run without a redirect, it prints text to the screen, so you should see something resembling the following:
 
 .. code-block:: json
 
@@ -157,13 +158,14 @@ You should see a message like ``Successfully added system IPLANT_USERNAME-s3-sto
 
 **Exercises:**
 
-1. Retrieve a detailed description of **data.iplantcollaborative.org** (hint: use the verbose option of ``systems-list``):
+1. List the storage systems ``systems-list -S`` - do you see your S3 system there?
+2. Retrieve a detailed description of **data.iplantcollaborative.org** (hint: use the verbose option of ``systems-list``):
 
 - What storage protocol does the iDS use?
 - What kind of authentication?
 
-2. What other public storage systems are enrolled with iPlant (hint: use the -S -P flags)
-3. Can you find your new S3 system in the listing of public systems? Why not?
+2. What other public storage systems are enrolled with iPlant (hint: use the -S -P flags for ``systems-list``)
+3. Is your new S3 system in the listing of **public** systems? Why not?
 
 **Upload some data**
 
@@ -175,11 +177,11 @@ Upload some files from the ``scripts/assets`` directory
     files-upload -F scripts/assets/lorem-gibson.txt -S $S3_SYSTEM .
     files-upload -F scripts/assets/images/doge.jpg -S $S3_SYSTEM .
 
-**List the contents on your Agave storage systems**
+**List the contents of some Agave storage systems**
 
 List your iDS home directory:
 
-``files-list IPLANT_USERNAME``
+``files-list $IPLANT_USERNAME``
 
 You should see the directories and files you're used to seeing in the iPlant Discovery Environment.
 
@@ -252,6 +254,7 @@ Set some environment variables by entering the following commands into the *seco
   export IAM_SECRET="Your apikeys.secret"
   export REGION="us-west-1"
   export VPC="vpc-54e81031"
+  export IPLANT_USERNAME=$(auth-check | grep username | awk '{print $2}')
 
 Now, in same Docker window, enter this ``docker-machine`` command:
 
@@ -325,7 +328,7 @@ Congratulations: you've got Docker going in the cloud. Now, you can run just abo
 - You have code you'd like to make available for other people to run either via a command-line or, even better, in the iPlant Discovery Environment. Agave has some powerful abilities to make this happen.
 - You need to augment your local computing by offloading some heavy stuff to a bigger machine in the cloud. Agave has some powerful abilities to make this happen, too.
 
-In your Docker terminal window, and make sure you're cd-ed in the Advanced_iPlant directory. Run the following:
+In your Docker terminal (not the agave-cli) window, and make sure you're cd-ed in the Advanced_iPlant directory. Run the following:
 
 ``scripts/make-docker-description.sh $DOCKER_MACHINE_NAME $IPLANT_USERNAME``
 
@@ -356,6 +359,11 @@ Re-run the script, redirecting the output to a file ``scripts/make-docker-descri
 ``systems-addupdate -v -F my-ec2.json``
 
 You should see a message like ``Successfully added system IPLANT_USERNAME-docker-compute`` (Contact an instructor if you do not!) Go ahead and set an environment variable: ``export EC2_SYSTEM=IPLANT_USERNAME-docker-compute``.
+
+**Exercises:**
+
+1. Modify the description of your compute system by editing ``my-ec2.json``, then posting the updated description to Agave with ``systems-addupdate -F my-ec2.json``.
+2. Retrieve a detailed listing of ``stampede.tacc.utexas.edu`` and ``condor.opensciencegrid.org``. What is the executionType (hint: Try ``jq -r .executionType``) for each, and how is that different from your Docker system?
 
 Creating an Agave application and running a job
 -----------------------------------------------
