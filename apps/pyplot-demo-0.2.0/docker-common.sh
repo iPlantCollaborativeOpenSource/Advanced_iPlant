@@ -1,6 +1,6 @@
 if [ -z "${DOCKER_DATA_IMAGE}" ];
 then
-    echo "Warning: DOCKER_DATA_IMAGE was not defined"
+    echo "Notice: no DOCKER_DATA_IMAGE was defined"
 fi
 
 if [ -z "${DOCKER_APP_IMAGE}" ];
@@ -15,8 +15,11 @@ fi
 TTY=""
 MYUID=$(id -u $USER)
 STAMP=$(date +%s)
-#HOST_OPTS="--net=none -m=1g -u=$MYUID"
 HOST_OPTS="-m=1g"
+# Run as user
+HOST_OPTS="$HOST_OPTS -u=$MYUID"
+# Restruct network
+HOST_OPTS="$HOST_OPTS --net=none"
 # Maximum life for your app container
 MAXLIFE=14400
 

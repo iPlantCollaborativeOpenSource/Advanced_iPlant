@@ -1,7 +1,7 @@
 # Set configuration variables for docker-common.sh
 #
 # Base image for the execution environment
-# Basically, Python 2:latest, with numpy and matplotlib
+# Basically, Python 2:latest, with matplotlib
 DOCKER_APP_IMAGE='mwvaughn/python-demo:dib-0923'
 # Optional data volume
 DOCKER_DATA_IMAGE=''
@@ -53,8 +53,12 @@ fi
 # Run the script with the runtime values passed in from the job request
 
 # iterate over every input file/folder given
-for i in `find $WRAPPERDIR -name "*.csv"`; do
+BASEARGS="${showYLabel} ${xlabel} ${showXLabel} ${ylabel} ${showLegend} ${height} ${width} ${background} ${format} ${separateCharts} -v"
 
+for i in `find . -name "*.csv"`; do
+
+    # Strip leading ./ from filenames
+    i=${i#*/}
 	# iterate over every chart type supplied
 	for j in ${chartType}; do
 
@@ -62,7 +66,8 @@ for i in `find $WRAPPERDIR -name "*.csv"`; do
 		outdir="output/${inputfile%.*}"
 		mkdir -p "$outdir"
 
-		$DOCKER_APP_RUN python $WRAPPERDIR/lib/main.py ${showYLabel} ${ylabel} ${showXLabel} ${xlabel} ${showLegend} ${height} ${width} ${background} ${format} ${separateCharts} -v --output-location=$outdir --chart-type=$j $i
+        ARGS="$BASEARGS --output-location=$outdir --chart-type=$j $i"
+		$DOCKER_APP_RUN python lib/main.py ${ARGS}
 
 		# send a callback notification for subscribers to receive alerts after every chart is generated
 		${AGAVE_JOB_CALLBACK_NOTIFICATION}

@@ -55,7 +55,10 @@ DOCKER_HOST_PRIVATEKEY=$(cat ~/.docker/machine/machines/$MACHINE_NAME/id_rsa | s
 DOCKER_HOST_PUBLICKEY=$(cat ~/.docker/machine/machines/$MACHINE_NAME/id_rsa.pub | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')
 DOCKER_HOST_PROVIDER=$(config_value DriverName)
 DOCKER_HOST_INSTANCE_ID=$(config_value Id)
-DOCKER_HOST_WORKD="\/tmp"
+DOCKER_HOST_WORKD=""
+
+# Add DOCKER_HOST_USERNAME to docker group
+DOCKER_GADD=$(docker-machine ssh $MACHINE_NAME "sudo gpasswd -a ${DOCKER_HOST_USERNAME} docker; sudo service docker restart")
 
 # Create a date stamp to ensure the system name is fairly unique
 DATESTAMP=$(date +%m%d%Y-%k%M)
