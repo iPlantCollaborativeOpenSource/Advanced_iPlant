@@ -143,7 +143,7 @@ Navigation:
 
 - `Setting up your environment <02-ho-setup.rst>`_
 - `Using AWS S3 for storage with Agave <03-ho-s3-storage.rst>`_
-- **`Using AWS EC2 for computing with Agave <04-ho-ec2-setup.rst>`_**
+- **NEXT**`Using AWS EC2 for computing with Agave <04-ho-ec2-setup.rst>`_
 - `Creating Agave applications and running jobs <05-ho-ec2-using.rst>`_
 - `Example 1: Cloud Runner <06-cloud-runner.rst>`_
 - `Example 2: An Autoscaling Cluster <07-cfncluster.rst>`_
