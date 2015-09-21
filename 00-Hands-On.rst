@@ -16,7 +16,7 @@ In the following exercises, you will bring resources from Amazon Web Services in
 
 Activities:
 
-- **START**`Setting up your environment <02-ho-setup.rst>`_
+- **START** `Setting up your environment <02-ho-setup.rst>`_
 - `Using AWS S3 for storage with Agave <03-ho-s3-storage.rst>`_
 - `Using AWS EC2 for computing with Agave <04-ho-ec2-setup.rst>`_
 - `Creating Agave applications and running jobs <05-ho-ec2-using.rst>`_
