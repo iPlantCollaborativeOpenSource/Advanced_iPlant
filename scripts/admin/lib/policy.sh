@@ -7,37 +7,15 @@ local _S3=$3
 log "Attaching policy to ${_GROUP}/${_USER}..."
 RESPONSE=
 
+# This is way too permissive. Don't grant them access to the console!
 sh -c "cat > Policy.json" <<EOT
 {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetBucketLocation",
-                "s3:ListAllMyBuckets"
-            ],
-            "Resource": "arn:aws:s3:::*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "arn:aws:s3:::${S3_BUCKET_NAME}*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:PutObject",
-                "s3:GetObject",
-                "s3:DeleteObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::${S3_BUCKET_NAME}*"
-            ]
+          "Effect": "Allow",
+          "Action": "s3:*",
+          "Resource": "*"
         },
         {
           "Effect": "Allow",

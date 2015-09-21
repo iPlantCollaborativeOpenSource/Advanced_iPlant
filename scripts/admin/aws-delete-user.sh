@@ -7,8 +7,9 @@
 UNAME=$1
 GROUP=${2:=training}
 
-source ./config.sh
-source lib/functions.sh
+FDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source "${FDIR}/config.sh"
+source "${FDIR}/lib/functions.sh"
 
 delete_keypair "${IAM_KEYNAME}"
 delete_user "${IAM_USER}"

@@ -35,7 +35,6 @@ sh -c "cat > Meta.json" <<META
   "value": {
     "identity": {
         "iam_user": "${IAM_USER}",
-        "iam_password": "${IAM_PASS}",
         "iam_group": "${IAM_GRUPO}"
     },"apikeys": {
         "key": "${IAM_KEY}",
@@ -45,7 +44,6 @@ sh -c "cat > Meta.json" <<META
         "fingerprint": "${IAM_PRINT}",
         "pem": "${IAM_PEM_ESC}"
     },"aws": {
-        "uri": "http://${AWS_PROJECT}.signin.aws.amazon.com/console",
         "region": "${AWS_REGION}",
         "s3": "s3://${S3_BUCKET_NAME}"
     }

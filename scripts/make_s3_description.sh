@@ -1,5 +1,11 @@
 #/bin/bash
 
+# Author: Matthew Vaughn
+#         vaughn@iplantcollaborative.org
+#
+# Adapted heavily from code by Rion Dooley
+# https://github.com/agaveapi/docker-provisioning-demo
+
 # Name of the Agave storageSystem to be created
 SYSTEM_NAME=$1
 AGAVE_USERNAME=$(auth-check | grep username | awk '{print $2}')
@@ -32,3 +38,5 @@ cat "${S3_TEMPLATE}" | sed -e "s/%AWS_BUCKET_NAME/$DEMO_S3_BUCKET/g" \
     -e "s/%AWS_SECRET_KEY/${IAM_SECRET}/g" \
     -e "s/%AGAVE_SYSTEM_NAME/${SYSTEM_NAME}/g" \
     -e "s/%AGAVE_USERNAME/${AGAVE_USERNAME}/g"
+
+exit 0

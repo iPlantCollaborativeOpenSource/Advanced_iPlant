@@ -60,7 +60,7 @@ You should get a response back that looks like this (abbreviated) JSON document:
         "created": "2015-09-17T16:32:26.151-05:00",
         "internalUsername": null,
         "lastUpdated": "2015-09-17T16:32:26.151-05:00",
-        "name": "iplant-aws.dib-train-0923.IPLANT_USERNAME",
+        "name": "iplant-aws.dib-0923.IPLANT_USERNAME",
         "owner": "vaughn",
         "schemaId": null,
         "uuid": "0001442525546151-e0bd34dffff8de6-0001-012",
@@ -90,16 +90,6 @@ You should get back ``IPLANT_USERNAME.iplantc.org``
 3. Find out who is the *owner* of the JSON document that was shared with you
 4. What is the *uuid* of the document?
 5. Bonus: Use ``metadata-pems-list`` to find out if anyone else has read permission on this document
-
-**Explore the AWS Console**
-
-Using your iam_username and iam_password, log into ``https://iplant-aws.signin.aws.amazon.com/console``
-
-**Exercises:**
-
-1. Try to look inside other people's S3 buckets. Can you? Can you look in your own?
-2. Create a directory in your S3 bucket and upload a small file to it.
-3. Try to inspect a running EC2 instance running. What is its public IP address?
 
 **Check out the workshop material from Github**
 
@@ -165,7 +155,7 @@ Re-run the script, redirecting the output to a file ``scripts/make_s3_descriptio
 
 You should see a message like ``Successfully added system IPLANT_USERNAME-s3-storage`` (Contact an instructor if you do not!) Go ahead and set an environment variable: ``export S3_SYSTEM=IPLANT_USERNAME-s3-storage``.
 
-Exercises:
+**Exercises:**
 
 1. Retrieve a detailed description of **data.iplantcollaborative.org** (hint: use the verbose option of ``systems-list``):
 
@@ -199,12 +189,12 @@ List your new S3-based storage resource:
 
 What are the differences between how you list a public system like the Data Store and a private system?
 
-Optional Exercises:
+**Optional Exercises:**
 
-1. Visit the `S3 Management Console <https://console.aws.amazon.com/s3/home>`_ and verify that your files were uploaded and that you can view them.
-2. Re-run one or both of the ``files-list`` command with the ``-V`` verbose flag. Is there enough information returned to create a file browser-like user interface?
+1. Re-run one or both of the ``files-list`` command with the ``-V`` verbose flag. Is there enough information returned to create a file browser-like user interface?
+2. Change the description of your S3 storage system by editing the appropriate field in ``my-s3.json`` and re-running ``systems-addupdate -F my-s3.json``. Verify that the change was effective via ``systems-list -v $S3_SYSTEM``
 
-**Share a file with a friend**
+**Sharing data with friends**
 
 We have shared a very sad picture with the public: You should be able to list and download it, but go ahead and try to delete it - we dare you!
 
@@ -214,9 +204,9 @@ We have shared a very sad picture with the public: You should be able to list an
     files-get -S s3-demo-03.iplantc.org sadkitten.jpg
     files-delete -S s3-demo-03.iplantc.org sadkitten.jpg
 
-Find out that a friends person's iPlant username. Share a file with them in the iDS and your S3 volume. Have them do the same. Give your friend READ_WRITE permission on a folder in your iPlant Data Store and have them upload a file. Can you see the file?
+**Exercise:** Find out that a friends person's iPlant username. Share a file with them in the iDS and your S3 volume. Have them do the same. Give your friend READ_WRITE permission on a folder in your iPlant Data Store and have them upload a file. Can you see the file?
 
-Here's an example of iPlant users vaughn and jfonner sharing some data:
+Here's an example of iPlant users **vaughn** and **jfonner** sharing some data:
 
 .. code-block:: bash
 
@@ -253,34 +243,119 @@ Agave allows you to connect to 3rd party computing resources and do work on them
 
 Docker Machine lets you provision Docker-enabled hosts on Amazon EC2, Microsoft Azure, DigitalOcean, Google, and Rackspace commerical clouds as well as on private clouds powered by Openstack, Virtualbox, and VMware. You will use it to create one on Amazon EC2, taking care of steps 1 and 2 from the list.
 
-Set some environment variables by entering the following commands into the *second* Docker-enabled terminal (not the one running agave-cli), subsituting the appropriate values for ``DEMO_VM``, ``IAM_KEY``, and ``IAM_SECRET``.
+Set some environment variables by entering the following commands into the *second* Docker-enabled terminal (not the one running agave-cli), subsituting the appropriate values for ``DOCKER_MACHINE_NAME``, ``IAM_KEY``, and ``IAM_SECRET``.
 
 .. code-block:: bash
 
-  export DEMO_VM="pick_a_name"
+  export DOCKER_MACHINE_NAME="pick_a_name"
   export IAM_KEY="Your apikeys.key"
   export IAM_SECRET="Your apikeys.secret"
-  export AMI="ami-942717d1"
   export REGION="us-west-1"
-  export VPC="vpc-78e7521d"
+  export VPC="vpc-54e81031"
 
-Now, in the same Docker-enabled window, enter this ``docker-machine`` command:
+Now, in same Docker window, enter this ``docker-machine`` command:
 
 .. code-block:: bash
 
   docker-machine create --driver amazonec2 \
         --amazonec2-access-key "${IAM_KEY}" \
         --amazonec2-secret-key "${IAM_SECRET}"  \
-        --amazonec2-ami "${AMI}" \
         --amazonec2-vpc-id "${VPC}"  \
-        --amazonec2-region "${REGION} \
-        --amazonec2-instance-type t2.micro  \
-        --amazonec2-root-size 16  \
-        $DEMO_VM
+        --amazonec2-region "${REGION}" \
+        $DOCKER_MACHINE_NAME
+
+The ``docker-machine`` command will run for a while and then you should see:
+
+``Launching instance...
+To see how to connect Docker to this machine, run: docker-machine env DOCKER_MACHINE_NAME``
+
+**Configure Docker to talk to the new host system**
+
+Each Docker Machine system has its own configuration, which you can retrieve at any time with the ``env`` command. Here's what it looked like on the instructor's machine - yours should look similiar.
+
+.. code-block:: bash
+
+    docker-machine env $DOCKER_MACHINE_NAME
+    export DOCKER_TLS_VERIFY="1"
+    export DOCKER_HOST="tcp://54.215.249.202:2376"
+    export DOCKER_CERT_PATH="/Users/mwvaughn/.docker/machine/machines/vaughn-docker"
+    export DOCKER_MACHINE_NAME="vaughn-docker"
+    # Run this command to configure your shell:
+    # eval "$(docker-machine env vaughn-docker)"
+
+Part of the beauty of Docker Machine is that it lets you treat a remote host, like the one you just created, as though it were a local system. To do that, you must re-configure your local Docker client to point outwards.
+
+``eval "$(docker-machine env $DOCKER_MACHINE_NAME)"``
+
+**Note**: To switch back to your local Docker installation, run ``eval "$(docker-machine env default)"``
+
+**Launch some containers on your new system**
+
+The basic syntax for the following Docker commands is
+
+``docker run [options] [image:tag] [(optional) command]``
+
+**Note**: The ``-it --rm=true`` tells Docker to launch an interactive container with an attached terminal, and to remove the container when it exits. The ``command`` at the end is optional - many Docker images have a default command defined that runs when the container launches. If you don't provide a command, Docker will attempt to execute it instead.
+
+Run the following example Docker commands. For each of the following examples after the ``hello-world`` case, typing Control-D will exit the container.
+
+.. code-block:: bash
+
+    # Launch the Docker test image. Prints out some nice debugging info and quits
+    docker run -it --rm=true hello-world
+    # Launch a bash shell running on Centos 5.11
+    docker run -it --rm=true centos:5.11 bash
+    # Check the version of Centos. Welcome to Legacyville - Population: 1
+    cat /etc/redhat-release
+    # Launch a Python 2.7 interpreter
+    docker run -it --rm=true python:2.7 python
+    # Launch the latest Python version
+    docker run -it --rm=true python:latest python
+
+**Exercises:**
+
+1. Run another command using one of the same containers. An example might be ``docker run -it --rm=true centos:5.11 uptime``. How much of a delay did you experience before the results of your custom command were returned?
+2. List the Docker images on the remote system - are any them familiar?
+3. Look up details about the centos image at `Docker Hub <https://hub.docker.com/>`_. How many other versions of Centos are supported via public Docker images?
 
 **Set up your cloud host as an Agave executionSystem**
 
-**Optional: Share access to your cloud host with a friend**
+Congratulations: you've got Docker going in the cloud. Now, you can run just about any code on any modern Linux. Now, we need to tell Agave about your Docker host so that you can send code and data to it as part of your workflow. This solves two use cases (at least):
+
+- You have code you'd like to make available for other people to run either via a command-line or, even better, in the iPlant Discovery Environment. Agave has some powerful abilities to make this happen.
+- You need to augment your local computing by offloading some heavy stuff to a bigger machine in the cloud. Agave has some powerful abilities to make this happen, too.
+
+In your Docker terminal window, and make sure you're cd-ed in the Advanced_iPlant directory. Run the following:
+
+``scripts/make-docker-description.sh $DOCKER_MACHINE_NAME $IPLANT_USERNAME``
+
+The ``make-docker-description.sh`` script uses environment variables to turn a template file (``scripts/templates/systems/execution.tpl``) into a functional **Agave system description**. Run without a redirect, it prints text to the screen, so you should see something resembling the following abbreviated example.
+
+.. code-block:: json
+
+    {
+        "description": "Docker compute host running on amazonec2. Instance id 9d1c13733fd6a472258c32a109d8b3d3",
+        "environment": null,
+        "executionType": "CLI",
+        "id": "vaughn-docker-compute",
+        "login": {
+            "auth": {
+                "username": "ubuntu",
+                "publicKey": "ssh-rsa AAAAB3Nz..RvWJYx4hz",
+                "privateKey": "-----BEGIN RSA PRIVATE KEY-----\nMIIEpA..eg==\n-----END RSA PRIVATE KEY-----",
+                "type": "SSHKEYS"
+            },
+            "host": "54.215.249.202",
+            "port": 22,
+            "protocol": "SSH"
+        }
+    }
+
+Re-run the script, redirecting the output to a file ``scripts/make-docker-description.sh $DOCKER_MACHINE_NAME $IPLANT_USERNAME > my-ec2.json``, then register the system with the Agave systems API
+
+``systems-addupdate -v -F my-ec2.json``
+
+You should see a message like ``Successfully added system IPLANT_USERNAME-docker-compute`` (Contact an instructor if you do not!) Go ahead and set an environment variable: ``export EC2_SYSTEM=IPLANT_USERNAME-docker-compute``.
 
 Creating an Agave application and running a job
 -----------------------------------------------
@@ -300,3 +375,4 @@ NOTES
 
 - Implement a cloudrunner example
 - Implement a more specialized version of it with parameters to run one specific program
+- Send CSV from word frequency to demo-pyplot-demo-advanced-0.1.0u1
