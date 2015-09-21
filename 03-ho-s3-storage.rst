@@ -138,3 +138,13 @@ Here's an example of iPlant users **vaughn** and **jfonner** sharing some data:
 
 1. Find out a friends person's iPlant username. Share ``doge.jpg`` with them on your S3 system. Have them do the same on their system. Can you see each other's shared files via ``files-list -S SYSTEM .``?
 2. Give your friend READ_WRITE permission on a folder in your iPlant Data Store and have them upload a file to it. Can you see the file with a ``files-list``?
+
+Navigation:
+
+- `Setting up your environment <02-ho-setup.rst>`_
+- `Using AWS S3 for storage with Agave <03-ho-s3-storage.rst>`_
+- **`Using AWS EC2 for computing with Agave <04-ho-ec2-setup.rst>`_**
+- `Creating Agave applications and running jobs <05-ho-ec2-using.rst>`_
+- `Example 1: Cloud Runner <06-cloud-runner.rst>`_
+- `Example 2: An Autoscaling Cluster <07-cfncluster.rst>`_
+- `Home <00-Hands-On.rst>`_

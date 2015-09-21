@@ -137,3 +137,12 @@ You should see a message like ``Successfully added system IPLANT_USERNAME-docker
 1. Modify the description of your compute system by editing ``my-ec2.json``, then posting the updated description to Agave with ``systems-addupdate -F my-ec2.json``.
 2. Retrieve a detailed listing of ``stampede.tacc.utexas.edu`` and ``condor.opensciencegrid.org``. What is the executionType (hint: Try ``jq -r .executionType``) for each, and how is that different from your Docker system?
 
+Navigation:
+
+- `Setting up your environment <02-ho-setup.rst>`_
+- `Using AWS S3 for storage with Agave <03-ho-s3-storage.rst>`_
+- `Using AWS EC2 for computing with Agave <04-ho-ec2-setup.rst>`_
+- **`Creating Agave applications and running jobs <05-ho-ec2-using.rst>`_**
+- `Example 1: Cloud Runner <06-cloud-runner.rst>`_
+- `Example 2: An Autoscaling Cluster <07-cfncluster.rst>`_
+- `Home <00-Hands-On.rst>`_
