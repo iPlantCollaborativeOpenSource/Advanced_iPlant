@@ -27,6 +27,7 @@ First, an example
 In your **agave-cli** terminal window, make sure you are in ``/home/Advanced_iPlant``
 
 .. code-block:: bash
+
     # Find an app named pyplot
     [agave-cli:root@docker] apps-list -n pyplot
         demo-pyplot-demo-advanced-0.1.0u1
