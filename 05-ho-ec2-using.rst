@@ -30,9 +30,9 @@ In your **agave-cli** terminal window, make sure you are in ``/home/Advanced_iPl
     # Find an app named pyplot
     [agave-cli:root@docker] apps-list -n pyplot
         demo-pyplot-demo-advanced-0.1.0u1
-        pyplot-demo-0.2.0u2
+        pyplot-demo-0.2.0u3
     # View details about the app - inputs, params, etc
-    [agave-cli:root@docker] apps-list -v pyplot-demo-0.2.0u2
+    [agave-cli:root@docker] apps-list -v pyplot-demo-0.2.0u3
         {"_links": {
             "executionSystem": {
                 "href": "https://agave.iplantc.org/systems/v2/docker.iplantcollaborative.org"
@@ -55,6 +55,16 @@ In your **agave-cli** terminal window, make sure you are in ``/home/Advanced_iPl
     [agave-cli:root@docker] jobs-output-get -r 4425653391032380955-e0bd34dffff8de6-0001-007 output
 
 There should be a folder full of PNG files showing off some ancient stock price data inside the output directory. Boom - plotting as a service!
+
+**Exercises:**
+
+1. Log into the iPlant Discovery Environment and look for the folder output in your $HOME/archive/jobs folder. You should be able to browse the images there!
+2. Modify the demo job to run the pyplot application on bike sharing data from Kaggle, which can be found at ``shared/iplantcollaborative/example_data/pyplot/kaggle.csv`` in the iDS. Unlike the stocks data, the Y axis is not the same between charts so you may want to consider disabling it.
+
+Create a new application
+------------------------
+
+
 
 -------------------------------------------
 
