@@ -12,7 +12,7 @@ iPlant offers a set of APIs, known as the Agave APIs. They allow you scriptable 
 * Share nearly any data or resource in iPlant with other people
 * Share nearly any data or resource on your own computing and storage resources with other people
 
-In this exercise, you will bring resources from Amazon Web Services into iPlant, run an application on them, store the results in iPlant Data Store (iDS), and share them with a friend.
+In the following exercises, you will bring resources from Amazon Web Services into iPlant, run applications on them, store the results in iPlant Data Store (iDS), and share those results with a friend.
 
 Setting up your environment
 ---------------------------
@@ -22,9 +22,9 @@ Setting up your environment
 First, open **two** UNIX terminal windows, each with access to Docker. The way you do this varies by platform:
 
 1. If you are on **Mac or Windows and using Kitematic**, click the **[DOCKER CLI]** button two times.
-2. If you are on **Mac or Windows using **Docker Toolbox**, click the Docker Quickstart Terminal icon twice to launch the two windows
+2. If you are on **Mac or Windows using Docker Toolbox**, click the Docker Quickstart Terminal icon twice to launch the two windows
 3. If you are on **Linux with Docker installed natively**, open two terminal sessions
-4. If you are on **Mac or Linux using a VM to run Linux**, follow Linux-native instructions entirely within your VM
+4. If you are on **Mac or Windows using a VM to run Linux**, follow Linux-native instructions entirely within your VM
 
 **Launching an Agave CLI container**
 
@@ -142,8 +142,8 @@ This script uses the environment variables you just set to turn a template file 
             "homeDir": "/",
             "container": "mah_s3_bucket",
             "auth": {
-                "publicKey": "AMW3BEA3IM3BEA3BEA",
-                "privateKey": "yfPIjHxCT5v66VHyp6VPIjHxCT5v66VPIjHOTxXa",
+                "publicKey": "AMW3B..BEA3BEA",
+                "privateKey": "yfPIjHxCT5..VPIjHOTxXa",
                 "type": "APIKEYS"
             }
         },
@@ -337,7 +337,7 @@ The ``make-docker-description.sh`` script uses environment variables to turn a t
 .. code-block:: json
 
     {
-        "description": "Docker compute host running on amazonec2. Instance id 9d1c13733fd6a472258c32a109d8b3d3",
+        "description": "Docker compute host running on amazonec2. Instance id 9d1c13733fd2258c32a109d8b3d3",
         "environment": null,
         "executionType": "CLI",
         "id": "vaughn-docker-compute",
