@@ -11,15 +11,18 @@ You will create and exercise an Amazon S3-based storage resource, then interact 
 Set up an Agave storageSystem
 -----------------------------
 
-The iPlant team has already created an Amazon S3 bucket for your use. You can find its name in the metadata record we shared with you under ``value.aws.s3``. The bucket name is the part after ``s3://``
+The iPlant team has already created an Amazon S3 bucket for your use. You can find its name in the metadata record we shared with you under ``value.aws.s3``. The S3 bucket name is the part **after** ``s3://``
 
 In your **agave-cli** window, set the following environment variables:
 
 .. code-block:: bash
 
-  export DEMO_S3_BUCKET="Your S3 bucket name"
-  export IAM_KEY="Your apikeys.key"
-  export IAM_SECRET="Your apikeys.secret"
+  # From value.aws.s3
+  export DEMO_S3_BUCKET="your-s3-bucket-name"
+  # From value.apikeys.key
+  export IAM_KEY="your-aws-key"
+  # From value.apikeys.secret
+  export IAM_SECRET="your-aws-secret"
   export IPLANT_USERNAME=$(auth-check | grep username | awk '{print $2}')
 
 Make sure you're in the **/home/Advanced_iPlant** directory and run the following command:
