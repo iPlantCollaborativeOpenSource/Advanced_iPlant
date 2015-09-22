@@ -33,7 +33,7 @@ In your **agave-cli** window, run the following command: ``auth-check``. If you 
     tenants-init -t iplantc.org
     # Create an OAuth2 API client at iPlant.
     # You will be prompted for your iPlant username and password
-    clients-create -S -N agave-cli -D "Agave CLI"
+    clients-create -S -N "dib_0923" -D "Workshop client"
     # Create and cache an Agave API access token
     # You will be prompted for your iPlant password
     auth-tokens-create -S
