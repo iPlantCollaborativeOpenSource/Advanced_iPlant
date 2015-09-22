@@ -101,7 +101,7 @@ Check out the workshop material from Github
 The iPlant team has prepared several useful utility files and scripts to help with the objectives of the workshop. In the **agave-cli** window:
 
 1. cd into **/home**
-2. check out the repository ``git checkout https://github.com/iPlantCollaborativeOpenSource/Advanced_iPlant.git``
+2. check out the repository ``git clone https://github.com/iPlantCollaborativeOpenSource/Advanced_iPlant.git``
 3. ``cd Advanced_iPlant``
 
 **You will be working out of this directory exclusively for the rest of the workshop.**
