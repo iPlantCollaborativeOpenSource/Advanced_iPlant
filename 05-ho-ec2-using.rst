@@ -1,5 +1,5 @@
-Creating Agave applications and running jobs
-============================================
+Discovering and using Agave Applications
+========================================
 
 Overview
 --------
@@ -24,7 +24,7 @@ We represent the structured metadata in JSON format, as that is what Agave servi
 First, an example
 -----------------
 
-In your **agave-cli** terminal window, make sure you are in ``/home/Advanced_iPlant``
+In your **agave-cli** terminal window, make sure you are in ``/home/Advanced_iPlant`` and follow along. You will need to substitute the job ID you get back for the one that shows up in the text below.
 
 .. code-block:: bash
 
@@ -59,22 +59,18 @@ There should be a folder full of PNG files showing off some ancient stock price 
 
 **Exercises:**
 
-1. Log into the iPlant Discovery Environment and look for the job output in your ``$HOME/archive/jobs/`` folder. You should be able to browse the images there!
-2. Modify the demo job to run the pyplot application on bike sharing data from Kaggle, which can be found at ``shared/iplantcollaborative/example_data/pyplot/kaggle.csv`` in the iDS. Unlike the stocks data, the Y axis is not the same between charts so you may want to consider disabling it.
+1. Modify the demo job to run the pyplot application on bike sharing data from Kaggle, which can be found at ``shared/iplantcollaborative/example_data/pyplot/kaggle.csv`` in the iDS. Unlike the stocks data, the Y axis is not the same between charts so you may want to consider disabling it.
+2. Log into the iPlant Discovery Environment and look for the job output in your ``$HOME/archive/jobs/`` folder. You should be able to browse the images there!
 
-Create a new application
-------------------------
-
-
-
--------------------------------------------
+Now, you're ready to create and use your own Agave app.
 
 Navigation:
 
 - `Setting up your environment <02-ho-setup.rst>`_
 - `Using AWS S3 for storage with Agave <03-ho-s3-storage.rst>`_
 - `Using AWS EC2 for computing with Agave <04-ho-ec2-setup.rst>`_
-- **NEXT** `Creating Agave applications and running jobs <05-ho-ec2-using.rst>`_
+- `Discovering and using Agave Applications <05-ho-ec2-using.rst>`_
+- **NEXT** `Creating and using Agave applications <06-ho-make-app.rst>`_
 - `Example 1: Cloud Runner <06-cloud-runner.rst>`_
 - `Example 2: An Autoscaling Cluster <07-cfncluster.rst>`_
 - `Home <00-Hands-On.rst>`_

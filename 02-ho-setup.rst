@@ -14,7 +14,7 @@ First, open **two** UNIX terminal windows, each with access to Docker. The way y
 
 Choose one (but not both) of your Docker-enabled terminal sessions. Enter the following text exactly:
 
-``docker run -it --rm=true -v $HOME/.agave:/root/.agave -v $HOME:/home iplantc/agave-cli bash``
+``docker run -it --rm=true -v $HOME/.agave:/root/.agave -v $HOME:/home -w /home iplantc/agave-cli bash``
 
 This launches a container running the latest release of the iPlant flavor of the ``agave-cli``. It mounts Agave's local "cache" directory and also mounts **your local home directory** under ``/home`` inside the container. Check the contents of ``/home`` to verify that you can see your own files and folders.
 

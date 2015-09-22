@@ -6,3 +6,7 @@ Meta.json
 .agave
 *output*
 job-*
+my-s3.json
+my-ec2.json
+my-*
+*-stats-*
