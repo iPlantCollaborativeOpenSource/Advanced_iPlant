@@ -47,7 +47,7 @@ The iPlant team has created a set of credentials for each workshop attendee and 
 
 In the **agave-cli** window, enter the following command, **substituting IPLANT_USERNAME with your own iPlant username**. Pay careful attention to the use of single and double quotes!
 
-``metadata-list -v -Q '{"name":"iplant-aws.dib-train-0923.IPLANT_USERNAME"}'``
+``metadata-list -v -Q '{"name":"iplant-aws.dib-0923.IPLANT_USERNAME"}'``
 
 You should get a response back that looks like this (abbreviated) JSON document:
 
@@ -79,7 +79,7 @@ This document contains every detail you need to interact with iPlant's AWS accou
 
 Change into /home in the container, then pipe the document out to a file.
 
-``cd /home && metadata-list -v -Q '{"name":"iplant-aws.dib-train-0923.IPLANT_USERNAME"}' > my-aws-creds.json``
+``cd /home && metadata-list -v -Q '{"name":"iplant-aws.dib-0923.IPLANT_USERNAME"}' > my-aws-creds.json``
 
 The JSON file **my-aws-creds.json** contains an array consisting of one object with several keys. Some of those keys have children. Here's how to use **jq** to extract the *iam_user*, which is your AWS username, from the document:
 
