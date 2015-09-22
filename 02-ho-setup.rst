@@ -25,7 +25,7 @@ This launches a container running the latest release of the iPlant flavor of the
 Set up your Agave environment
 -----------------------------
 
-In your **agave-cli** window, run the following command: ``auth-check``. If you get an error **Please run /usr/local/agave-cli/bin/tenants-init to initialize your client before attempting to interact with the APIs** then do the following:
+In your **agave-cli** window, run the following command: ``auth-check``. If you get an error **Please run /usr/local/agave-cli/...** then do the following:
 
 .. code-block:: bash
 
