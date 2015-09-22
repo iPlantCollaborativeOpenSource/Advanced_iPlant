@@ -149,6 +149,7 @@ Navigation:
 - **NEXT** `Using AWS EC2 for computing with Agave <04-ho-ec2-setup.rst>`_
 - `Discovering and using Agave Applications <05-ho-ec2-using.rst>`_
 - `Creating and using Agave applications <06-ho-make-app.rst>`_
+- `Synergy with the iPlant Discovery Environment` <07-ho-discoenv.rst>`_
 - `Home <00-Hands-On.rst>`_
 - `Example 1: Cloud Runner <20-cloud-runner.rst>`_
 - `Example 2: An Autoscaling Cluster <21-cfncluster.rst>`_
