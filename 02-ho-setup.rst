@@ -88,6 +88,24 @@ The iPlant team has prepared several useful utility files and scripts to help wi
 
 **You will be working out of this directory exclusively for the rest of the workshop.**
 
+Set up your Agave environment
+-----------------------------
+
+In your **agave-cli** window, run the following command: ``auth-check``. If you get an error **Please run /usr/local/agave-cli/bin/tenants-init to initialize your client before attempting to interact with the APIs** then do the following:
+
+.. code-block:: bash
+
+    # Set up the CLI to point to iPlant
+    tenants-init -t iplantc.org
+    # Create an OAuth2 API client at iPlant.
+    # You will be prompted for your iPlant username and password
+    clients-create -S -N agave-cli -D "Agave CLI"
+    # Create and cache an Agave API access token
+    # You will be prompted for your iPlant password
+    auth-tokens-create -S
+
+If you do not get an error from ``auth-check``, please run ``auth-tokens-refresh -S`` before proceeding with the next parts of the workshop.
+
 Navigation:
 
 - `Setting up your environment <02-ho-setup.rst>`_
