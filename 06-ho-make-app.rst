@@ -114,6 +114,9 @@ You need access to the Agave CLI for this part, so switch to the window running 
     # Will create a folder job-JOB_ID which you can inspect the contents of
     jobs-output-get -r JOB_ID
 
+**Exercises**
+
+1. Plot the results from your wordfrequency job
 
 More Resources
 --------------
