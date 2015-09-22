@@ -31,9 +31,9 @@ In your **agave-cli** terminal window, make sure you are in ``/home/Advanced_iPl
     # Find an app named pyplot
     [agave-cli:root@docker] apps-list -n pyplot
         demo-pyplot-demo-advanced-0.1.0u1
-        pyplot-demo-0.2.0u3
+        pyplot-demo-0.2.0u4
     # View details about the app - inputs, params, etc
-    [agave-cli:root@docker] apps-list -v pyplot-demo-0.2.0u3
+    [agave-cli:root@docker] apps-list -v pyplot-demo-0.2.0u4
         {"_links": {
             "executionSystem": {
                 "href": "https://agave.iplantc.org/systems/v2/docker.iplantcollaborative.org"

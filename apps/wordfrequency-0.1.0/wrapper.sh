@@ -22,7 +22,7 @@ source docker-common.sh
 # Construct ARG string
 ARGS=
 ARGS="${filename} ${max_length} ${ignore_list}"
-if [ -n "${allow_digits}" ];
+if [[ "${allow_digits}" -eq 1 ]];
 then
     ARGS="$ARGS --allow-digits true"
 fi

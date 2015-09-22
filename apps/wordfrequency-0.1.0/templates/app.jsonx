@@ -1,5 +1,5 @@
 {
-    "name": "%AGAVE_USER_NAME-wordfrequency",
+    "name": "%AGAVE_USERNAME-wordfrequency",
     "parallelism": "SERIAL",
     "version": "0.1.0",
     "label": "Word Frequency Counter",
@@ -9,13 +9,14 @@
     "defaultMemoryPerNode": 1,
     "defaultProcessors": 1,
     "defaultQueue": "default",
-    "deploymentPath": "%AGAVE_USER_NAME/applications/wordfrequency-0.1.0",
+    "deploymentPath": "%AGAVE_USERNAME/applications/wordfrequency-0.1.0",
     "deploymentSystem": "data.iplantcollaborative.org",
     "executionSystem": "%AGAVE_EXEC_SYSTEM",
     "executionType": "CLI",
     "templatePath": "wrapper.sh",
     "testPath": "test.sh",
     "checkpointable": false,
+    "helpURI": "https://github.com/iPlantCollaborativeOpenSource/Advanced_iPlant/",
     "modules": [],
     "tags": [
         "demo",
