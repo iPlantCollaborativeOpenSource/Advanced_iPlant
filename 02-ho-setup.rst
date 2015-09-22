@@ -20,7 +20,7 @@ This launches a container running the latest release of the iPlant flavor of the
 
 .. image:: media/agave-cli-window.png
 
-.. note:: You should have two windows open that `resemble this image </media/docker-two-windows.png>`_
+**Note:** You should have two windows open that `resemble this image <media/docker-two-windows.png>`_
 
 Set up your Agave environment
 -----------------------------
