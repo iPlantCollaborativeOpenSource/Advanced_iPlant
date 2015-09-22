@@ -18,6 +18,8 @@ Choose one (but not both) of your Docker-enabled terminal sessions. Enter the fo
 
 This launches a container running the latest release of the iPlant flavor of the ``agave-cli``. It mounts Agave's local "cache" directory and also mounts **your local home directory** under ``/home`` inside the container. Check the contents of ``/home`` to verify that you can see your own files and folders.
 
+.. image:: media/agave-cli-window.png
+
 Retrieving your AWS credentials
 -------------------------------
 
@@ -25,7 +27,7 @@ The iPlant team has created a set of credentials for each workshop attendee and 
 
 **Query the iPlant Agave metadata service**
 
-In the Agave CLI window, enter the following command, **substituting IPLANT_USERNAME with your own iPlant username**. Pay careful attention to the use of single and double quotes!
+In the **agave-cli** window, enter the following command, **substituting IPLANT_USERNAME with your own iPlant username**. Pay careful attention to the use of single and double quotes!
 
 ``metadata-list -v -Q '{"name":"iplant-aws.dib-train-0923.IPLANT_USERNAME"}'``
 
@@ -55,7 +57,7 @@ You should get a response back that looks like this (abbreviated) JSON document:
             }
         }}]
 
-This document contains every detail you need to interact with iPlant's AWS account. Let's take a minute to learn how to pull key bits out for use in scripting. We will use the `jq <https://stedolan.github.io/jq/tutorial/>`_ parser, which is installed by default in the iPlant Agave CLI image.
+This document contains every detail you need to interact with iPlant's AWS account. Let's take a minute to learn how to pull key bits out for use in scripting. We will use the `jq <https://stedolan.github.io/jq/tutorial/>`_ parser, which is installed by default in the iPlant **agave-cli** image.
 
 Change into /home in the container, then pipe the document out to a file.
 
@@ -69,17 +71,16 @@ You should get back ``IPLANT_USERNAME.iplantc.org``
 
 **Exercises:**
 
-1. Find your AWS secret and key
-2. Find your IAM password
-3. Find the name of the S3 bucket you have been assigned
-4. Find out who is the *owner* of the JSON document that was shared with you
-5. What is the *uuid* of the document?
-6. Bonus: Use ``metadata-pems-list`` to find out if anyone else has read permission on this document
+1. Find your AWS key and secret
+2. Find the name of the S3 bucket you have been assigned
+3. Find out who is the *owner* of the JSON document that was shared with you
+4. What is the *uuid* of the document?
+5. Bonus: Use ``metadata-pems-list UUID`` to find out if anyone else has read permission on this document
 
 Check out the workshop material from Github
 -------------------------------------------
 
-The iPlant team has prepared several useful utility files and scripts to help with the objectives of the workshop. In the **agave-cli** Docker container
+The iPlant team has prepared several useful utility files and scripts to help with the objectives of the workshop. In the **agave-cli** window:
 
 1. cd into **/home**
 2. check out the repository ``git checkout https://github.com/iPlantCollaborativeOpenSource/Advanced_iPlant``
