@@ -14,11 +14,29 @@ First, open **two** UNIX terminal windows, each with access to Docker. The way y
 
 Choose one (but not both) of your Docker-enabled terminal sessions. Enter the following text exactly:
 
-``docker run -it --rm=true -v $HOME/.agave:/root/.agave -v $HOME:/home iplantc/agave-cli bash``
+``docker run -it --rm=true -v $HOME/.agave:/root/.agave -v $HOME:/home -w /home iplantc/agave-cli bash``
 
 This launches a container running the latest release of the iPlant flavor of the ``agave-cli``. It mounts Agave's local "cache" directory and also mounts **your local home directory** under ``/home`` inside the container. Check the contents of ``/home`` to verify that you can see your own files and folders.
 
 .. image:: media/agave-cli-window.png
+
+Set up your Agave environment
+-----------------------------
+
+In your **agave-cli** window, run the following command: ``auth-check``. If you get an error **Please run /usr/local/agave-cli/bin/tenants-init to initialize your client before attempting to interact with the APIs** then do the following:
+
+.. code-block:: bash
+
+    # Set up the CLI to point to iPlant
+    tenants-init -t iplantc.org
+    # Create an OAuth2 API client at iPlant.
+    # You will be prompted for your iPlant username and password
+    clients-create -S -N agave-cli -D "Agave CLI"
+    # Create and cache an Agave API access token
+    # You will be prompted for your iPlant password
+    auth-tokens-create -S
+
+If you do not get an error from ``auth-check``, please run ``auth-tokens-refresh -S`` before proceeding with the next parts of the workshop.
 
 Retrieving your AWS credentials
 -------------------------------
@@ -29,7 +47,7 @@ The iPlant team has created a set of credentials for each workshop attendee and 
 
 In the **agave-cli** window, enter the following command, **substituting IPLANT_USERNAME with your own iPlant username**. Pay careful attention to the use of single and double quotes!
 
-``metadata-list -v -Q '{"name":"iplant-aws.dib-train-0923.IPLANT_USERNAME"}'``
+``metadata-list -v -Q '{"name":"iplant-aws.dib-0923.IPLANT_USERNAME"}'``
 
 You should get a response back that looks like this (abbreviated) JSON document:
 
@@ -61,7 +79,7 @@ This document contains every detail you need to interact with iPlant's AWS accou
 
 Change into /home in the container, then pipe the document out to a file.
 
-``cd /home && metadata-list -v -Q '{"name":"iplant-aws.dib-train-0923.IPLANT_USERNAME"}' > my-aws-creds.json``
+``cd /home && metadata-list -v -Q '{"name":"iplant-aws.dib-0923.IPLANT_USERNAME"}' > my-aws-creds.json``
 
 The JSON file **my-aws-creds.json** contains an array consisting of one object with several keys. Some of those keys have children. Here's how to use **jq** to extract the *iam_user*, which is your AWS username, from the document:
 
@@ -83,7 +101,7 @@ Check out the workshop material from Github
 The iPlant team has prepared several useful utility files and scripts to help with the objectives of the workshop. In the **agave-cli** window:
 
 1. cd into **/home**
-2. check out the repository ``git checkout https://github.com/iPlantCollaborativeOpenSource/Advanced_iPlant``
+2. check out the repository ``git clone https://github.com/iPlantCollaborativeOpenSource/Advanced_iPlant.git``
 3. ``cd Advanced_iPlant``
 
 **You will be working out of this directory exclusively for the rest of the workshop.**
@@ -93,7 +111,8 @@ Navigation:
 - `Setting up your environment <02-ho-setup.rst>`_
 - **NEXT** `Using AWS S3 for storage with Agave <03-ho-s3-storage.rst>`_
 - `Using AWS EC2 for computing with Agave <04-ho-ec2-setup.rst>`_
-- `Creating Agave applications and running jobs <05-ho-ec2-using.rst>`_
-- `Example 1: Cloud Runner <06-cloud-runner.rst>`_
-- `Example 2: An Autoscaling Cluster <07-cfncluster.rst>`_
+- `Discovering and using Agave Applications <05-ho-ec2-using.rst>`_
+- `Creating and using Agave applications <06-ho-make-app.rst>`_
 - `Home <00-Hands-On.rst>`_
+- `Example 1: Cloud Runner <20-cloud-runner.rst>`_
+- `Example 2: An Autoscaling Cluster <21-cfncluster.rst>`_

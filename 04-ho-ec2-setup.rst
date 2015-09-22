@@ -130,7 +130,9 @@ Re-run the script, redirecting the output to a file ``scripts/make-exec-docker.s
 
 ``systems-addupdate -v -F my-ec2.json``
 
-You should see a message like ``Successfully added system IPLANT_USERNAME-docker-compute`` (Contact an instructor if you do not!) Go ahead and set an environment variable: ``export EC2_SYSTEM=IPLANT_USERNAME-docker-compute``.
+You should see a message like ``Successfully added system IPLANT_USERNAME-docker-compute`` (Contact an instructor if you do not!)
+
+Go ahead and set an environment variable: ``export AGAVE_EXEC_SYSTEM=IPLANT_USERNAME-docker-compute`` (you know what to do with **IPLANT_USERNAME**,right?)
 
 **Exercises:**
 
@@ -142,7 +144,8 @@ Navigation:
 - `Setting up your environment <02-ho-setup.rst>`_
 - `Using AWS S3 for storage with Agave <03-ho-s3-storage.rst>`_
 - `Using AWS EC2 for computing with Agave <04-ho-ec2-setup.rst>`_
-- **NEXT** `Creating Agave applications and running jobs <05-ho-ec2-using.rst>`_
-- `Example 1: Cloud Runner <06-cloud-runner.rst>`_
-- `Example 2: An Autoscaling Cluster <07-cfncluster.rst>`_
+- **NEXT** `Discovering and using Agave Applications <05-ho-ec2-using.rst>`_
+- `Creating and using Agave applications <06-ho-make-app.rst>`_
 - `Home <00-Hands-On.rst>`_
+- `Example 1: Cloud Runner <20-cloud-runner.rst>`_
+- `Example 2: An Autoscaling Cluster <21-cfncluster.rst>`_
