@@ -65,7 +65,7 @@ Notice that you need to include the ``-S`` argument again so that the command li
 
 ``auth-check``
 
-If things went will, it will confirm that you have a token on the "iplantc.org" tenant and will show you how much time is left.  The refresh token can be used to get another token without re-entering your username and password.  When you need a new token, type:
+If things went well, it will confirm that you have a token on the "iplantc.org" tenant and will show you how much time is left.  The refresh token can be used to get another token without re-entering your username and password.  When you need a new token, type:
 
 ``auth-tokens-refresh -S``
 
