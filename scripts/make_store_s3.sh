@@ -34,8 +34,8 @@ S3_TEMPLATE="$(dirname $0)/templates/systems/s3-storage.tpl"
 echo -e "Created the system description for \x1B[32m${SYSTEM_NAME}\x1B[0m" >&2
 
 cat "${S3_TEMPLATE}" | sed -e "s/%AWS_BUCKET_NAME/$DEMO_S3_BUCKET/g" \
-    -e "s/%AWS_ACCESS_KEY/${IAM_KEY}/g" \
-    -e "s/%AWS_SECRET_KEY/${IAM_SECRET}/g" \
+    -e "s=%AWS_ACCESS_KEY=${IAM_KEY}=g" \
+    -e "s=%AWS_SECRET_KEY=${IAM_SECRET}=g" \
     -e "s/%AGAVE_SYSTEM_NAME/${SYSTEM_NAME}/g" \
     -e "s/%AGAVE_USERNAME/${AGAVE_USERNAME}/g"
 
