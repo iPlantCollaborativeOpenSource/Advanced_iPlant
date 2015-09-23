@@ -25,3 +25,4 @@ Activities:
 - `Home <00-Hands-On.rst>`_
 - `Example 1: Cloud Runner <20-cloud-runner.rst>`_
 - `Example 2: An Autoscaling Cluster <21-cfncluster.rst>`_
+- `Troubleshooting <99-ho-troubleshoot.rst>`_
