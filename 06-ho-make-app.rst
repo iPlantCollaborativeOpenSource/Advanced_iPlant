@@ -6,7 +6,20 @@ Switch to your **other Docker Terminal window (**not agave-cli**), then go to th
 Develop and test code locally using Docker
 ------------------------------------------
 
-iPlant staff have written a simple Python application that counts word-length frequencies in a text file. The code is in ``lib/main.py``. By adapting the workflow we are demonstrating, you can  develop and test your own Docker-based scientific codes. Launch ``main.py --help`` to read its help (and test that the Docker setup is working OK) by entering the Docker run command below. It should print a help screen (perhaps after pulling the ``mwvaughn/python-demo`` image).
+iPlant staff have written a simple Python application that counts word-length frequencies in a text file. The code is in ``lib/main.py`` on your local machine. Before we run this app, we need to make sure docker-machine will use your local system and not the Amazon cloud.
+
+.. code-block:: bash
+
+    docker-machine ls
+    eval $(docker-machine env default)
+
+.. Linux users need docker-machine env --unset
+
+NAME                    ACTIVE   DRIVER       STATE     URL                         SWARM
+default                          virtualbox   Running   tcp://192.168.99.100:2376
+fonner-duringworkshop   *        amazonec2    Running   tcp://54.219.151.138:2376
+
+By adapting the workflow we are demonstrating, you can  develop and test your own Docker-based scientific codes. Launch ``main.py --help`` to read its help (and test that the Docker setup is working OK) by entering the Docker run command below. It should print a help screen (perhaps after pulling the ``mwvaughn/python-demo`` image).
 
 .. code-block:: bash
 
@@ -84,6 +97,7 @@ You need access to the Agave CLI for this part, so **switch to the Terminal runn
     # Any time you make changes to the wrapper script or other assets
     # in this directory, you must re-upload it for them to take effect
     #
+    files-mkdir -N applications $IPLANT_USERNAME
     files-upload -F wordfrequency-0.1.0 $IPLANT_USERNAME/applications/
 
     # Create a custom app description
@@ -93,7 +107,7 @@ You need access to the Agave CLI for this part, so **switch to the Terminal runn
     # In the meantime, look at the values for name, deploymentPath, and executionSystem
     # in the my-app.json file
     # Publish the application metadata to the Agave apps service
-    apps-add-update -F my-app.json
+    apps-addupdate -F my-app.json
 
     # You should get a response
     # Successfully added app IPLANT_USERNAME-wordfrequency-0.1.0
