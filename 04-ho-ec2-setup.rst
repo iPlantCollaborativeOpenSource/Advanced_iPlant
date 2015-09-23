@@ -20,16 +20,16 @@ Launch a Docker-enabled VM
 
 Docker Machine lets you provision Docker-enabled hosts on Amazon EC2, Microsoft Azure, DigitalOcean, Google, and Rackspace commerical clouds as well as on private clouds powered by Openstack, Virtualbox, and VMware. You will use it to create one on Amazon EC2, taking care of steps 1 and 2 from the list.
 
-Set some environment variables by entering the following commands into the *second* Docker-enabled terminal (not the one running agave-cli), subsituting the appropriate values for ``DOCKER_MACHINE_NAME``, ``IAM_KEY``, and ``IAM_SECRET``.
+Set some environment variables by entering the following commands into the *second* Docker-enabled terminal (not the one running agave-cli), subsituting the appropriate values for ``DOCKER_MACHINE_NAME``, ``IAM_KEY``, and ``IAM_SECRET``. Remember that you can find your credentials in ``~/my-aws-creds.json``
 
 .. code-block:: bash
 
-  export DOCKER_MACHINE_NAME="pick_a_name"
-  export IAM_KEY="Your apikeys.key"
-  export IAM_SECRET="Your apikeys.secret"
+  export DOCKER_MACHINE_NAME="pick_a_name_make_it_unix_friendly"
+  export IPLANT_USERNAME="your_iplant_username_here"
+  export IAM_KEY="your_aws_key"
+  export IAM_SECRET="your_aws_secret"
   export REGION="us-west-1"
   export VPC="vpc-54e81031"
-  export IPLANT_USERNAME=$(auth-check | grep username | awk '{print $2}')
 
 Now, in same Docker window, enter this ``docker-machine`` command:
 
@@ -146,6 +146,8 @@ Navigation:
 - `Using AWS EC2 for computing with Agave <04-ho-ec2-setup.rst>`_
 - **NEXT** `Discovering and using Agave Applications <05-ho-ec2-using.rst>`_
 - `Creating and using Agave applications <06-ho-make-app.rst>`_
+- `Synergy with the iPlant Discovery Environment <07-ho-discoenv.rst>`_
 - `Home <00-Hands-On.rst>`_
 - `Example 1: Cloud Runner <20-cloud-runner.rst>`_
 - `Example 2: An Autoscaling Cluster <21-cfncluster.rst>`_
+- `Troubleshooting <99-ho-troubleshoot.rst>`_

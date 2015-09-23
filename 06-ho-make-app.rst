@@ -114,6 +114,9 @@ You need access to the Agave CLI for this part, so switch to the window running 
     # Will create a folder job-JOB_ID which you can inspect the contents of
     jobs-output-get -r JOB_ID
 
+**Exercises**
+
+1. Plot the results from your wordfrequency job
 
 More Resources
 --------------
@@ -125,6 +128,8 @@ Building Agave applications can be very rewarding way to share your code with yo
 - `Using AWS EC2 for computing with Agave <04-ho-ec2-setup.rst>`_
 - `Discovering and using Agave Applications <05-ho-ec2-using.rst>`_
 - `Creating and using Agave applications <06-ho-make-app.rst>`_
-- **NEXT** `Home <00-Hands-On.rst>`_
+- **NEXT** `Synergy with the iPlant Discovery Environment <07-ho-discoenv.rst>`_
+- `Home <00-Hands-On.rst>`_
 - `Example 1: Cloud Runner <20-cloud-runner.rst>`_
 - `Example 2: An Autoscaling Cluster <21-cfncluster.rst>`_
+- `Troubleshooting <99-ho-troubleshoot.rst>`_

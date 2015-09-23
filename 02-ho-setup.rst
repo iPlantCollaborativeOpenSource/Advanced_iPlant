@@ -20,10 +20,12 @@ This launches a container running the latest release of the iPlant flavor of the
 
 .. image:: media/agave-cli-window.png
 
+**Note:** You should have two windows open that `resemble this image <media/docker-two-windows.png>`_
+
 Set up your Agave environment
 -----------------------------
 
-In your **agave-cli** window, run the following command: ``auth-check``. If you get an error **Please run /usr/local/agave-cli/bin/tenants-init to initialize your client before attempting to interact with the APIs** then do the following:
+In your **agave-cli** window, run the following command: ``auth-check``. If you get an error **Please run /usr/local/agave-cli/...** then do the following:
 
 .. code-block:: bash
 
@@ -31,7 +33,7 @@ In your **agave-cli** window, run the following command: ``auth-check``. If you 
     tenants-init -t iplantc.org
     # Create an OAuth2 API client at iPlant.
     # You will be prompted for your iPlant username and password
-    clients-create -S -N agave-cli -D "Agave CLI"
+    clients-create -S -N "dib_0923" -D "Workshop client"
     # Create and cache an Agave API access token
     # You will be prompted for your iPlant password
     auth-tokens-create -S
@@ -100,7 +102,7 @@ Check out the workshop material from Github
 
 The iPlant team has prepared several useful utility files and scripts to help with the objectives of the workshop. In the **agave-cli** window:
 
-1. cd into **/home**
+1. ``cd /home``
 2. check out the repository ``git clone https://github.com/iPlantCollaborativeOpenSource/Advanced_iPlant.git``
 3. ``cd Advanced_iPlant``
 
@@ -113,6 +115,8 @@ Navigation:
 - `Using AWS EC2 for computing with Agave <04-ho-ec2-setup.rst>`_
 - `Discovering and using Agave Applications <05-ho-ec2-using.rst>`_
 - `Creating and using Agave applications <06-ho-make-app.rst>`_
+- `Synergy with the iPlant Discovery Environment <07-ho-discoenv.rst>`_
 - `Home <00-Hands-On.rst>`_
 - `Example 1: Cloud Runner <20-cloud-runner.rst>`_
 - `Example 2: An Autoscaling Cluster <21-cfncluster.rst>`_
+- `Troubleshooting <99-ho-troubleshoot.rst>`_
