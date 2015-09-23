@@ -19,20 +19,20 @@ Setting up your environment
 
 **Preparing to use Docker**
 
-First, open a UNIX terminal windows with access to Docker. The way you do this varies by platform:
+First, open a UNIX terminal window with access to Docker. The way you do this varies by platform:
 
 1. If you are on **Mac or Windows and using Kitematic**, click the **[DOCKER CLI]** button.
-2. If you are on **Mac or Windows using **Docker Toolbox**, click the Docker Quickstart Terminal icon to launch the window
-3. If you are on **Linux with Docker installed natively**, open a terminal session
-4. If you are on **Mac or Linux using a VM to run Linux**, follow Linux-native instructions entirely within your VM
+2. If you are on **Mac or Windows using Docker Toolbox**, click the Docker Quickstart Terminal icon to launch the window
+3. If you are on **Linux with Docker installed natively**, open a terminal session. Make sure you are able to access Docker by typing ``docker images``
+4. If you are on **Mac or Linux using a VM to run Linux**, follow Linux-native instructions entirely within the VM
 
 **Launching an Agave CLI container**
 
 In your Docker-enabled terminal session, enter the following text exactly:
 
-``docker run -it --rm=true -v $HOME/.agave:/root/.agave -v `pwd`:/home iplantc/agave-cli bash``
+``docker run -it --rm=true -v $HOME/.agave:/root/.agave -v $HOME:/home -w /home iplantc/agave-cli bash``
 
-This launches a container running the latest release of the iPlant flavor of the ``agave-cli``. It mounts Agave's local "cache" directory and also mounts the **current working directory** under ``/home`` inside the container. Check the contents of ``/home`` to see the contents of your host's filesystem.
+This launches a container running the latest release of the iPlant flavor of the ``agave-cli``. It mounts Agave's local "cache" directory and also mounts **your local home directory** under ``/home`` inside the container. Check the contents of ``/home`` to verify that you can see your own files and folders.
 
 Authentication
 --------------
@@ -51,7 +51,7 @@ You will then be prompted to select a tenant by typing in the corresponding numb
 
 Like Google and many other large service providers, the iPlant APIs use the OAuth model for authentication.  This means that in addition to your username and password, you need a "client key" and "client secret".  For ecosystems with multiple services using the same authentication fabric, having client information independent from user credentials has some nice benefits, but for the purposes of this tutorial, we just need a valid client and don't really care about any other benefits.  Create your own client by typing this command at the command line:
 
-``clients-create -S -N my-client`` 
+``clients-create -S -N my-client``
 
 You will be prompted for your username and password.  If successful, a new client will be created, and the key and secret will be stored in the local Agave cache.  Don't neglect to include the ``-S`` argument in the ``clients-create`` command, otherwise the client information will not be saved in the cache.  At this point, you now have a username, password, client key, and client secret.  You're ready to log in.
 
