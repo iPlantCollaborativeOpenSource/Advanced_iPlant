@@ -1,0 +1,19 @@
+{
+  "name": "dib-0923.example",
+  "appId": "pyplot-demo-0.2.0u3",
+  "archive": true,
+  "inputs": {
+    "dataset": [
+      "agave://data.iplantcollaborative.org/shared/iplantcollaborative/example_data/pyplot/testdata.csv"
+    ]
+  },
+  "parameter": {
+    "chartType": "line",
+    "separateCharts": true,
+    "showYLabel": true,
+    "showXLabel": true,
+    "ylabel": "Stock_Price",
+    "xlabel": "Trade_Date",
+    "showLegend": true
+  }
+}

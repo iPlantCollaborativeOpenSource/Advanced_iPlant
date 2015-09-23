@@ -7,8 +7,8 @@ First, open **two** UNIX terminal windows, each with access to Docker. The way y
 
 1. If you are on **Mac or Windows and using Kitematic**, click the **[DOCKER CLI]** button two times.
 2. If you are on **Mac or Windows using Docker Toolbox**, click the Docker Quickstart Terminal icon twice to launch the two windows
-3. If you are on **Linux with Docker installed natively**, open two terminal sessions
-4. If you are on **Mac or Windows using a VM to run Linux**, follow Linux-native instructions entirely within your VM
+3. If you are on **Linux with Docker installed natively**, open a terminal session. Make sure you are able to access Docker by typing ``docker images``
+4. If you are on **Mac or Linux using a VM to run Linux**, follow Linux-native instructions entirely within the VM
 
 **Launching an Agave CLI container**
 

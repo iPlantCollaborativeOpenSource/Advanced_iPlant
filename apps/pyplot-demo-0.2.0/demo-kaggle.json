@@ -1,0 +1,18 @@
+{
+  "name": "dib-0923.example",
+  "appId": "pyplot-demo-0.2.0u3",
+  "archive": true,
+  "inputs": {
+    "dataset": [
+      "agave://data.iplantcollaborative.org/shared/iplantcollaborative/example_data/pyplot/kaggle.csv"
+    ]
+  },
+  "parameter": {
+    "chartType": "line",
+    "separateCharts": true,
+    "showYLabel": false,
+    "showXLabel": true,
+    "xlabel": "Date_Time",
+    "showLegend": true
+  }
+}
