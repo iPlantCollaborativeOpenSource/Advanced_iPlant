@@ -1,0 +1,128 @@
+{
+  "name": "%AGAVE_USERNAME-cloud-runner",
+  "version": "0.1.0",
+  "helpURI": "http://agaveapi.co/contact-us",
+  "label": "Run your code in the cloud",
+  "defaultNodeCount": 1,
+  "defaultRequestedTime": "48:00:00",
+  "shortDescription": "Running your own code on a Docker host.",
+  "longDescription": "Generic template for running an arbitrary applications on a Docker cloud host. Apps should be a gzipped archive.",
+  "executionSystem": "%AGAVE_EXEC_SYSTEM",
+  "executionType": "CLI",
+  "parallelism": "SERIAL",
+  "deploymentPath": "%AGAVE_USERNAME/applications/cloud-runner-0.1.0",
+  "deploymentSystem": "data.iplantcollaborative.org",
+  "templatePath": "wrapper.sh",
+  "testPath": "test/test.sh",
+  "tags": [
+    "Docker", "demo"
+  ],
+  "modules": [],
+  "inputs": [{
+    "id": "dockerFile",
+    "details": {
+      "label": "Dockerfile",
+      "description": "Dockerfile to build the container that will be run as the executable. This is optional. Only include if you need to build a new container that is not present in the Docker central index and your app bundle does not already have a Dockerfile in it.",
+      "argument": null,
+      "showArgument": false
+    },
+    "semantics": {
+      "minCardinality": 1,
+      "ontology": []
+    },
+    "value": {
+      "required": false,
+      "visible": true
+    }
+  }, {
+    "id": "appBundle",
+    "details": {
+      "defaut": null,
+      "label": "Application bundle",
+      "description": "Compressed work folder containing application and binaries to be run in the Docker container. zip, gz.",
+      "argument": null,
+      "showArgument": false
+    },
+    "semantics": {
+      "minCardinality": 1,
+      "ontology": []
+    },
+    "value": {
+      "required": false,
+      "visible": true,
+      "validator": "([^\\s]+(\\.(?i)(zip|gz|tgz|tar.gz|bz2|rar))$)"
+    }
+  }],
+  "parameters": [{
+      "id": "unpackInputs",
+      "details": {
+        "label": "Unpack input files",
+        "description": "If true, any compressed input files will be expanded prior to execution on the remote system.",
+        "argument": "1",
+        "showArgument": true
+      },
+      "value": {
+        "default": "true",
+        "type": "flag",
+        "visible": true,
+        "required": false
+      },
+      "semantics": {
+        "ontology": []
+      }
+    }, {
+      "id": "dockerImage",
+      "details": {
+        "label": "Image name",
+        "description": "Container image from the Docker central repo or name of the image created by building the dockerFile",
+        "argument": null,
+        "showArgument": false
+      },
+      "value": {
+        "visible": true,
+        "required": true,
+        "type": "string",
+        "default": "scivm/scientific-python-2.7"
+      },
+      "semantics": {
+        "ontology": []
+      }
+    }, {
+      "id": "command",
+      "details": {
+        "label": "Command to run",
+        "description": "This is the actual executable needed to run your program in the Docker container. ex. Rscript, python, java, mvn, php, sh",
+        "argument": null,
+        "showArgument": false
+      },
+      "value": {
+        "default": "",
+        "type": "string",
+        "required": false,
+        "visible": true
+      },
+      "semantics": {
+        "ontology": []
+      }
+    }, {
+      "id": "commandArgs",
+      "details": {
+        "label": "Command arguments",
+        "description": "This is a string representing the command line needed to run your code. ex. main.r, main.py, -cp $CLASSPATH:lib, exec:java, -f main.php, -c main.sh ",
+        "argument": null,
+        "showArgument": false
+      },
+      "value": {
+        "default": "",
+        "type": "string",
+        "required": false,
+        "visible": true
+      },
+      "semantics": {
+        "ontology": []
+      }
+    }
+
+  ],
+  "checkpointable": false
+}
