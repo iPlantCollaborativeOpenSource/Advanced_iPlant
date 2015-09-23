@@ -62,7 +62,7 @@ Re-run the script, redirecting the output to a file ``scripts/make_store_s3.sh >
 
 You should see a message like ``Successfully added system IPLANT_USERNAME-s3-storage`` (Contact an instructor if you do not!)
 
-**Set an environment variable** ``export S3_SYSTEM=IPLANT_USERNAME-s3-storage`` making sure to substitute in your iPlant username for IPLANT_USERNAME.
+**Set an environment variable** ``export S3_SYSTEM=${IPLANT_USERNAME}-s3-storage`` making sure to either have your iPlant username set in the $IPLANT_USERNAME variable or substitute ${IPLANT_USERNAME} with your iPlant username.
 
 **Exercises:**
 
@@ -72,8 +72,8 @@ You should see a message like ``Successfully added system IPLANT_USERNAME-s3-sto
 - What storage protocol does the iDS use?
 - What kind of authentication?
 
-2. What other public storage systems are enrolled with iPlant (hint: use the -S -P flags for ``systems-list``)
-3. Is your new S3 system in the listing of **public** systems? Why not?
+.. 2. What other public storage systems are enrolled with iPlant (hint: use the -S -P flags for ``systems-list``)
+   3. Is your new S3 system in the listing of **public** systems? Why not?
 
 Store some data
 ---------------
@@ -96,7 +96,7 @@ List your iDS home directory:
 
 ``files-list $IPLANT_USERNAME``
 
-You should see the directories and files you're used to seeing in the iPlant Discovery Environment.
+You should see the directories and files you're used to seeing in the iPlant Discovery Environment as well as the "TheKesselRun.jpg" file just uploaded.
 
 List your new S3-based storage resource:
 
