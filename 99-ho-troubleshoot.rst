@@ -1,6 +1,12 @@
 Workshop-Related Troubleshooting
 ================================
 
+**Agave CLI operations return authentication error** ``auth-tokens-refresh -S``
+
+**Err: command not found when using Agave CLI**  Make sure you are in a **working agave-cli container**
+
+**Sporadic job submission or status check failures** Repeat query - jobs service is in process of getting a performance tuneup.
+
 **Soft reset the VM supporting Docker** ``VBoxManage controlvm default reset``
 
 **Hard reset the VM supporting Docker** ``VBoxManage controlvm default poweroff``
