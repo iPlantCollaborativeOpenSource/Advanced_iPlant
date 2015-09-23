@@ -3,7 +3,7 @@ Advanced iPlant: API-based data analysis
 
 Overview
 --------
-iPlant offers a set of APIs, known as the Agave APIs. They allow you scriptable access to:
+iPlant offers a set of Science APIs, built on the Agave platform, that allow you scriptable access to:
 
 * Use applications published by iPlant and your colleagues
 * Manage and use data in the iPlant Data Store
@@ -88,17 +88,43 @@ There are quite a few systems available, and these include both storage systems 
 
 ``systems-list -S``
 
-The output
+The output of this command should list several systems, most notably:
 
-s3-demo-03.iplantc.org
-rodeo.storage.demo
-ncbi
-archive.data.iplantcollaborative.org
-data.iplantcollaborative.org
+- **data.iplantcollaborative.org** - this is the iPlant Data Store.  Files here are also accessible through the iPlant Discovery Environment.
+- **s3-demo-03.iplantc.org** - this is a demo system that we have shared with you today for this course.
+- **ncbi** - this is a read-only reference to NCBI
+
+Most interactions with data storage systems use the "files" commands that are discussed in the next session.  Next, let's look at the execution systems, but rather than just give you the command, can you figure it out?  To see what kind of arguments the ``systems-list`` command accepts, try this:
+
+``systems-list -h``
+
+Once you find it, run the appropriate command to only show execution systems.  Among ths systems on the list, some notable ones are:
+
+- **lonestar4.tacc.teragrid.org** - a compute cluster at the Texas Advanced Computing Center
+- **stampede.tacc.utexas.edu** - currently the 8th largest supercomputer in the world!
+- **docker.iplantcollaborative.org** - mostly for demonstration and training purposes at the time of writing this, this execution host runs docker jobs.
+
+Most interactions with execution systems are to launch jobs, but for your own systems, it is also possible to use the "files" commands to look at the local data as well.  **Note:** An execution system is always tied to a set of user credentials for that system.  In other words, when you run jobs on Stampede, there is an unprivileged iPlant service account that runs the job on your behalf and returns the results to you.  This means that iPlant can share apps with you that run on Stampede without requiring that you be able to login to Stampede directly.  If you actually have credentials that let you SSH into Stampede, you can use the ``systems-clone`` command to create your own private copy of Stampede that uses your credentials, but we won't do that in this tutorial.  Later on, we will show you how to register your own execution system.
 
 
 Data management
 ---------------
+
+Later on, we will do quite a bit of data movement and management.  At the moment, it is probably a good time to explore some of the files commands on your own.  Try entering the first part of the files command and hitting tab twice like this:
+
+``files-<TAB><TAB>``
+
+**Exercises**
+
+- Take a few minutes to look through the different API commands that start with "files-".  Which ones do you think you will use the most?  See a description of each command by using the ``-h`` flag (e.g. ``files-upload -h``).
+- Your home directory on data.iplantcollaborative.org is just your usersname.  For example, if user jfonner wanted to see what was in his home directory, he would type ``files-list /jfonner``.  Your home directory might be empty if you are new to iPlant.  Try looking at the ``/shared/iplant_training/`` directory.  Can you tell which directory was created most recently? (Hint: you will need to both pass an extra argument to "files-list" and can optionally pipe the output to another bash command for sorting)
+
+
+The default iPlant storage system is data.iplantcollaborative.org.  So the following two commands are equivalent
+
+.. code-block:: bash
+    files-list /shared/iplant_training
+    files-list -S data.iplantcollaborative.org /shared/iplant_training
 
 
 
@@ -107,32 +133,3 @@ Launching and managing jobs
 ---------------------------
 
 
-
-.. code-block:: bash
-
-  docker-machine create --driver amazonec2 \
-        --amazonec2-access-key "${IAM_KEY}" \
-        --amazonec2-secret-key "${IAM_SECRET}"  \
-        --amazonec2-ami "${AMI}" \
-        --amazonec2-vpc-id "${VPC}"  \
-        --amazonec2-region "${REGION} \
-        --amazonec2-instance-type t2.micro  \
-        --amazonec2-root-size 16  \
-        $DEMO_VM
-
-**Set up your VM as an Agave executionSystem**
-
-**Share access to your VM with a friend**
-
-Creating an Agave application and running a job
------------------------------------------------
-
-An Agave application consists of:
-
-1. A script, written in template form, that tells a remote system how to run a command on specific data
-2. The physical assets that have to be installed on the remote system to enable that command. These can be binary files, reference data sets, or instructions for procuring these items.
-3. Some structured metadata, posted to the Agave *apps* service that describes the system- and run-time parameters needed to run the command
-
-Check out the following Git repository and ``cd`` into it:
-
-``git checkout https://github.com/iPlantCollaborativeOpenSource/Advanced_iPlant``
