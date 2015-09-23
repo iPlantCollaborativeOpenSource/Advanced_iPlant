@@ -1,0 +1,129 @@
+{
+    "name": "wordfrequency",
+    "parallelism": "SERIAL",
+    "version": "0.1.0",
+    "label": "Word Frequency Counter",
+    "shortDescription": "Counts word frequencies in a text doc",
+    "longDescription": "Supports a stoplist & maxlength",
+    "defaultMemory": 1,
+    "defaultMemoryPerNode": 1,
+    "defaultProcessors": 1,
+    "defaultQueue": "debug",
+    "deploymentPath": "vaughn/applications/wordfrequency-0.1.0",
+    "deploymentSystem": "data.iplantcollaborative.org",
+    "executionSystem": "docker.iplantcollaborative.org",
+    "executionType": "CLI",
+    "templatePath": "wrapper.sh",
+    "testPath": "test.sh",
+    "checkpointable": false,
+    "helpURI": "https://github.com/iPlantCollaborativeOpenSource/Advanced_iPlant/",
+    "modules": [],
+    "tags": [
+        "demo",
+        "Python",
+        "tutorial",
+        "nlp"
+    ],
+    "ontology": [],
+    "inputs": [
+        {
+            "id": "filename",
+            "value": {
+                "default": "agave://data.iplantcollaborative.org/shared/iplantcollaborative/example_data/pyplot/174.txt.utf-8",
+                "type": "string",
+                "validator": null,
+                "visible": true,
+                "required": true,
+                "enquote": true
+            },
+            "details": {
+                "label": "File name",
+                "description": "This is the text file to analyze",
+                "argument": "--filename ",
+                "showArgument": true,
+                "repeatArgument": true
+            },
+            "semantics": {
+                "ontology": [],
+                "minCardinality": 1,
+                "maxCardinality": 1,
+                "fileTypes": [
+                    "text-0"
+                ]
+            }
+        }
+    ],
+    "parameters": [
+        {
+            "id": "allow_digits",
+            "details": {
+                "label": "Allow digits",
+                "description": "Allow digits to be parsed",
+                "argument": null,
+                "showArgument": false
+            },
+            "value": {
+                "default": false,
+                "type": "bool",
+                "visible": true,
+                "required": false
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:boolean"
+                ],
+                "minCardinality": 0,
+                "maxCardinality": 1
+            }
+        },
+        {
+            "id": "ignore_list",
+            "value": {
+                "default": "the,a,it,on,i,an,and,to,of",
+                "type": "string",
+                "visible": true,
+                "required": true,
+                "enquote": false
+            },
+            "details": {
+                "label": "Ignore list",
+                "description": "Ignore these words when computing frequencies. Comma-separated/No spaces",
+                "argument": "--ignore ",
+                "showArgument": true,
+                "repeatArgument": false
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:string"
+                ],
+                "minCardinality": 1,
+                "maxCardinality": 1
+            }
+        },
+        {
+            "id": "max_length",
+            "value": {
+                "default": 24,
+                "type": "number",
+                "validator": "\\d+",
+                "visible": true,
+                "required": false,
+                "enquote": false
+            },
+            "details": {
+                "label": "Maximum word length",
+                "description": "Analyze words up to this many characters",
+                "argument": "--max ",
+                "showArgument": true,
+                "repeatArgument": false
+            },
+            "semantics": {
+                "ontology": [
+                    "xs:integer"
+                ],
+                "minCardinality": 0,
+                "maxCardinality": 1
+            }
+        }
+    ]
+}

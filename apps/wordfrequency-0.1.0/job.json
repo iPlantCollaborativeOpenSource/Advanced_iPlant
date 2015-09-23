@@ -1,0 +1,20 @@
+{
+  "name":"wordfrequency-test",
+  "appId": "wordfrequency-0.1.0",
+  "maxRunTime": "01:00:00",
+  "memoryPerNode": "1GB",
+  "nodeCount": 1,
+  "processorsPerNode": 1,
+  "archive": false,
+  "archiveSystem": "data.iplantcollaborative.org",
+  "archivePath": null,
+  "inputs": {
+    "filename": "agave://data.iplantcollaborative.org/shared/iplantcollaborative/example_data/pyplot/174.txt.utf-8"
+  },
+  "parameters": {
+    "allow_digits": false,
+    "ignore_list": "the,a,it,on,i,an,and,to,of",
+    "max_length": 24
+  },
+  "notifications": []
+}
