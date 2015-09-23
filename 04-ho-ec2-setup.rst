@@ -107,9 +107,9 @@ Congratulations: you've got Docker going in the cloud. Your code portability are
 .. code-block:: bash
 
     cd /home/Advanced_iPlant
-    scripts/make-exec-docker.sh $DOCKER_MACHINE_NAME $IPLANT_USERNAME
+    scripts/make_exec_docker.sh $DOCKER_MACHINE_NAME $IPLANT_USERNAME
 
-The ``make-exec-docker.sh`` script uses environment variables to turn a template file (``scripts/templates/systems/execution.tpl``) into a functional **Agave system description**. Run without a redirect, it prints text to the screen, so you should see something resembling the following abbreviated example.
+The ``make_exec_docker.sh`` script uses environment variables to turn a template file (``scripts/templates/systems/execution.tpl``) into a functional **Agave system description**. Run without a redirect, it prints text to the screen, so you should see something resembling the following abbreviated example.
 
 .. code-block:: json
 
@@ -131,7 +131,7 @@ The ``make-exec-docker.sh`` script uses environment variables to turn a template
         }
     }
 
-Re-run the script, redirecting the output to a file ``scripts/make-exec-docker.sh $DOCKER_MACHINE_NAME $IPLANT_USERNAME > my-ec2.json``, then register the system with the Agave systems API
+Re-run the script, redirecting the output to a file ``scripts/make_exec_docker.sh $DOCKER_MACHINE_NAME $IPLANT_USERNAME > my-ec2.json``, then register the system with the Agave systems API
 
 ``systems-addupdate -v -F my-ec2.json``
 
