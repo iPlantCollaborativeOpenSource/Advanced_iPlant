@@ -20,7 +20,7 @@ Launch a Docker-enabled VM
 
 Docker Machine lets you provision Docker-enabled hosts on Amazon EC2, Microsoft Azure, DigitalOcean, Google, and Rackspace commerical clouds as well as on private clouds powered by Openstack, Virtualbox, and VMware. You will use it to create one on Amazon EC2, taking care of steps 1 and 2 from the list.
 
-Set some environment variables by entering the following commands into the *second* Docker-enabled terminal (not the one running agave-cli), subsituting the appropriate values for ``DOCKER_MACHINE_NAME``, ``IAM_KEY``, and ``IAM_SECRET``. Remember that you can find your credentials in ``~/my-aws-creds.json``
+Set some environment variables by entering the following commands into the **second Docker-enabled terminal (not the one running agave-cli)**, subsituting in appropriate values for ``DOCKER_MACHINE_NAME``, ``IPLANT_USERNAME``, ``IAM_KEY``, and ``IAM_SECRET``. Remember that you can find your AWS credentials in ``~/my-aws-creds.json``
 
 .. code-block:: bash
 
@@ -94,15 +94,18 @@ Run the following example Docker commands. For each of the following examples af
 **Exercises:**
 
 1. Run another command using one of the same containers. An example might be ``docker run -it --rm=true centos:5.11 uptime``. How much of a delay did you experience before the results of your custom command were returned?
-2. List the Docker images on the remote system - are any them familiar?
+2. List the Docker images on the remote system with ``docker images`` -- are any them familiar?
 3. Look up details about the centos image at `Docker Hub <https://hub.docker.com/>`_. How many other versions of Centos are supported via public Docker images?
 
 Set up your cloud host as an Agave executionSystem
 --------------------------------------------------
 
-Congratulations: you've got Docker going in the cloud. Your code portability and scaling problems are coming to an end. Now, we need to tell Agave about your Docker host so that you can send code and data to it as part of your workflow. In your Docker terminal (not the agave-cli) window, and make sure you're cd-ed in the Advanced_iPlant directory. Run the following:
+Congratulations: you've got Docker going in the cloud. Your code portability are coming to an end. Now, we need to tell Agave about your Docker host so that you can send code and data to it as part of your workflows. In your **Docker terminal (not agave-cli) window**, first making sure you're cd-ed in the Advanced_iPlant directory. Run the following:
 
-``scripts/make-exec-docker.sh $DOCKER_MACHINE_NAME $IPLANT_USERNAME``
+.. code-block:: bash
+
+    cd /home/Advanced_iPlant
+    scripts/make-exec-docker.sh $DOCKER_MACHINE_NAME $IPLANT_USERNAME
 
 The ``make-exec-docker.sh`` script uses environment variables to turn a template file (``scripts/templates/systems/execution.tpl``) into a functional **Agave system description**. Run without a redirect, it prints text to the screen, so you should see something resembling the following abbreviated example.
 
@@ -132,7 +135,11 @@ Re-run the script, redirecting the output to a file ``scripts/make-exec-docker.s
 
 You should see a message like ``Successfully added system IPLANT_USERNAME-docker-compute`` (Contact an instructor if you do not!)
 
-Go ahead and set an environment variable: ``export AGAVE_EXEC_SYSTEM=IPLANT_USERNAME-docker-compute`` (you know what to do with **IPLANT_USERNAME**,right?)
+Go ahead and set an environment variable
+
+``export AGAVE_EXEC_SYSTEM=IPLANT_USERNAME-docker-compute``
+
+(You know what to do with **IPLANT_USERNAME**,right?)
 
 **Exercises:**
 

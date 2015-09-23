@@ -19,7 +19,7 @@ Agave jobs consist of:
 
 1. Structured metadata, posted to the Agave *jobs* service that describes references to data that will be processed using the app, plus the system- and run-time parameters needed to run the the app.
 
-We represent the structured metadata in JSON format, as that is what Agave services expect.
+We represent this structured metadata in JSON format, as that is what Agave services expect.
 
 First, an example
 -----------------
@@ -60,9 +60,9 @@ There should be a folder full of PNG files showing off some ancient stock price 
 **Exercises:**
 
 1. Modify the demo job to run the pyplot application on bike sharing data from Kaggle, which can be found at ``shared/iplantcollaborative/example_data/pyplot/kaggle.csv`` in the iDS. Unlike the stocks data, the Y axis is not the same between charts so you may want to consider disabling it.
-2. Log into the iPlant Discovery Environment and look for the job output in your ``$HOME/archive/jobs/`` folder. You should be able to browse the images there!
+2. Log into the iPlant Discovery Environment and look for the job output in your ``IPLANT_USERNAME/archive/jobs/`` folder. You should be able to view the images there!
 
-Now, you're ready to create and use your own Agave app.
+Now, you're ready to create and use your own Agave app...
 
 Navigation:
 

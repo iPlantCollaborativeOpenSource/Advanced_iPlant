@@ -1,12 +1,12 @@
 Creating and using Agave applications
 =====================================
 
-Switch to your other terminal window, the one **not running agave-cli**, then go to the source directory for this workshop ``cd $HOME/Advanced_iPlant/apps/wordfrequency-0.1.0``
+Switch to your **other Docker Terminal window (**not agave-cli**), then go to the source directory for this workshop ``cd $HOME/Advanced_iPlant/apps/wordfrequency-0.1.0``
 
 Develop and test code locally using Docker
 ------------------------------------------
 
-iPlant staff have written this simple Python application that counts word-length frequencies in a text file. The code is in ``lib/main.py``. By adapting the workflow we are demonstrating, you can  develop and test your own Docker-based scientific codes. Launch the main.py to read its help (and test that the Docker setup is working OK) by entering the Docker run command below. It should print a help screen (perhaps after pulling the ``mwvaughn/python-demo`` image).
+iPlant staff have written a simple Python application that counts word-length frequencies in a text file. The code is in ``lib/main.py``. By adapting the workflow we are demonstrating, you can  develop and test your own Docker-based scientific codes. Launch ``main.py --help`` to read its help (and test that the Docker setup is working OK) by entering the Docker run command below. It should print a help screen (perhaps after pulling the ``mwvaughn/python-demo`` image).
 
 .. code-block:: bash
 
@@ -38,7 +38,7 @@ Run the main.py script with some arguments:
     Computing stats...
     Printing results to data/174-stats-20150922-201332.csv
 
-Confirm that an output file was be placed in ``./data``, then experiment with the various options presented in the help: ``--max, --ignore, --allow-digits`` to get a feel for how to run ``main.py``
+Confirm that an output file was be placed in ``data/``, then experiment with the various options presented in the help: ``--max, --ignore, --allow-digits`` to get a feel for how to run ``main.py``
 
 Templates, tests, and app descriptions
 --------------------------------------
@@ -65,7 +65,7 @@ To adapt this code for use by the Agave apps service, a script template and appl
 Publishing the application
 --------------------------
 
-You need access to the Agave CLI for this part, so switch to the window running **agave-cli** and ``cd /home/iPlant/Advanced_iPlant/apps``. Notice that you're actually one directory level up from ``wordfrequency-0.1.0``. The sequence of events is as follows:
+You need access to the Agave CLI for this part, so **switch to the Terminal running agave-cli** and ``cd /home/iPlant/Advanced_iPlant/apps``. Notice that you're actually one directory level up from ``wordfrequency-0.1.0``. The sequence of events is as follows:
 
 - Set a couple environment variables to make scripting easier
 - Create ``my-app.json``, a copy of `app.json`` tailored to your iPlant username and AWS-based execution system
@@ -78,7 +78,7 @@ You need access to the Agave CLI for this part, so switch to the window running 
 
     # All the environment variables
     export IPLANT_USERNAME=$(auth-check | grep username | awk '{print $2}')
-    export AGAVE_EXEC_SYSTEM="your_ec2_system_name"
+    export AGAVE_EXEC_SYSTEM="sub_in_your_ec2_system_name"
 
     # Upload the application bundle to the iPlant Data Store
     # Any time you make changes to the wrapper script or other assets
@@ -94,6 +94,7 @@ You need access to the Agave CLI for this part, so switch to the window running 
     # in the my-app.json file
     # Publish the application metadata to the Agave apps service
     apps-add-update -F my-app.json
+
     # You should get a response
     # Successfully added app IPLANT_USERNAME-wordfrequency-0.1.0
     export APP_ID=IPLANT_USERNAME-wordfrequency-0.1.0
@@ -116,7 +117,7 @@ You need access to the Agave CLI for this part, so switch to the window running 
 
 **Exercises**
 
-1. Plot the results from your wordfrequency job
+1. Plot the results from your wordfrequency job using the pyplot application
 
 More Resources
 --------------
