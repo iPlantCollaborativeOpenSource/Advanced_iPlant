@@ -98,7 +98,7 @@ Most interactions with data storage systems use the "files" commands that are di
 
 ``systems-list -h``
 
-Once you find it, run the appropriate command to only show execution systems.  Among ths systems on the list, some notable ones are:
+Once you find it, run the appropriate command to only show execution systems.  Among the systems on the list, some notable ones are:
 
 - **lonestar4.tacc.teragrid.org** - a compute cluster at the Texas Advanced Computing Center
 - **stampede.tacc.utexas.edu** - currently the 8th largest supercomputer in the world!
@@ -117,7 +117,7 @@ Later on, we will do quite a bit of data movement and management.  At the moment
 **Exercises**
 
 - Take a few minutes to look through the different API commands that start with "files-".  Which ones do you think you will use the most?  See a description of each command by using the ``-h`` flag (e.g. ``files-upload -h``).
-- Your home directory on data.iplantcollaborative.org is just your usersname.  For example, if user jfonner wanted to see what was in his home directory, he would type ``files-list /jfonner``.  Your home directory might be empty if you are new to iPlant.  Try looking at the ``/shared/iplant_training/`` directory.  Can you tell which directory was created most recently? (Hint: you will need to both pass an extra argument to "files-list" and can optionally pipe the output to another bash command for sorting)
+- Your home directory on data.iplantcollaborative.org is just your username.  For example, if user jfonner wanted to see what was in his home directory, he would type ``files-list /jfonner``.  Your home directory might be empty if you are new to iPlant.  Try looking at the ``/shared/iplant_training/`` directory.  Can you tell which directory was created most recently? (Hint: you will need to both pass an extra argument to "files-list" and can optionally pipe the output to another bash command for sorting)
 
 
 The default iPlant storage system is data.iplantcollaborative.org, which is the iPlant Data Store.  So the following two commands are equivalent
@@ -179,6 +179,7 @@ We will actually do this later on, for now let's just look at the commands avail
 If you haven't run any Agave jobs before, ``jobs-list`` may be empty for you.  Conversely, if you have run "HPC" jobs in the Discovery Environment before, you will also see a record of them here.
 
 **Exercises**
+
 - Take a few minutes to look at what goes into an example FastQC app with this command: ``apps-list -v dnasubway-fastqc-lonestar-0.11.2.0u2``
 - Why do you think the APIs use JSON to describe apps and run jobs (and most other things)?
 
@@ -186,4 +187,4 @@ If you haven't run any Agave jobs before, ``jobs-list`` may be empty for you.  C
 Summary
 -------
 
-There are a lot of features we have covered, and honestly quite a few we haven't explored yet, but hopefully this gives you a rough idea of how to explore the CLI tools and the underlying API.
+There are a lot of features we have covered, and honestly quite a few we haven't explored yet, but hopefully this gives you a rough idea of how to explore the CLI tools and the underlying API.  From here, it's time to move on to some hands-on examples.
