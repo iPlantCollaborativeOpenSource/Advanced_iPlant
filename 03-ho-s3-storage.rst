@@ -60,7 +60,9 @@ Re-run the script, redirecting the output to a file ``scripts/make_store_s3.sh >
 
 ``systems-addupdate -v -F my-s3.json``
 
-You should see a message like ``Successfully added system IPLANT_USERNAME-s3-storage`` (Contact an instructor if you do not!) Go ahead and set an environment variable: ``export S3_SYSTEM=IPLANT_USERNAME-s3-storage`` making sure to substitute in your iPlant username where appropriate.
+You should see a message like ``Successfully added system IPLANT_USERNAME-s3-storage`` (Contact an instructor if you do not!)
+
+**Set an environment variable** ``export S3_SYSTEM=IPLANT_USERNAME-s3-storage`` making sure to substitute in your iPlant username for IPLANT_USERNAME.
 
 **Exercises:**
 
