@@ -143,4 +143,47 @@ Part of iPlant's goal is to let users access their data however they want.  By b
 Launching and managing jobs
 ---------------------------
 
+**Apps**
 
+Later in the workshop, we will look at registering apps and running jobs.  Here, we should just cover a few concepts. First, apps in agave are always tied to a system, and if you will recall, systems are always tied to a set of credentials.  To explore the apps that are publically available in iPlant, try this:
+
+.. code-block:: bash
+
+    apps-list
+    apps-list -n dnasubway
+    apps-list -S stampede.tacc.utexas.edu
+
+Every app in this list has all of its binaries and dependencies packaged up on a data system (usually data.iplantcollaborative.org).  Notice that apps are also versioned, and for public apps there is also an "update" number that increments every time it is changed.  Thus, you can be assured that a given app ID (e.g. dnasubway-cuffmerge-lonestar-2.1.1u2) will always be the exact same code with the same checksum running on the same system.  It also has a JSON description of the inputs, parameters, and outputs for the app.  Though we won't deviate now to explore it, ``apps-clone`` can be used to create a personal copy of an app on an execution system that you own.
+
+**Jobs**
+
+The general flow for running a job often looks like the following:
+
+.. code-block:: bash
+
+    jobs-template -A bowtie2-2.2.4_aligner-2.2.4u1 > bowtie-job.json
+    # edit bowtie-job.json 
+    jobs-submit -F bowtie-job.json
+    jobs-list
+    jobs-history 0123456789012345678-0123456789abcde-0001-007
+    jobs-output-list 0123456789012345678-0123456789abcde-0001-007
+
+We will actually do this later on, for now let's just look at the commands available to us:
+
+- jobs-template - **experimental**. This command attempts to parse an app description and create a template for running a job against that app.  It is dependent on how the app was integrated, so it may require more or less editing to do what you want.
+- jobs-submit - Once you have a job submission JSON file, you can submit it with this command.
+- jobs-list - Shows a list of past jobs you have initiated and their status
+- jobs-history - Gives you detailed information about a specific job.
+- jobs-output-list - Locates the output from the job and lists the contents.
+
+If you haven't run any Agave jobs before, ``jobs-list`` may be empty for you.  Conversely, if you have run "HPC" jobs in the Discovery Environment before, you will also see a record of them here.
+
+**Exercises**
+- Take a few minutes to look at what goes into an example FastQC app with this command: ``apps-list -v dnasubway-fastqc-lonestar-0.11.2.0u2``
+- Why do you think the APIs use JSON to describe apps and run jobs (and most other things)?
+
+
+Summary
+-------
+
+There are a lot of features we have covered, and honestly quite a few we haven't explored yet, but hopefully this gives you a rough idea of how to explore the CLI tools and the underlying API.
