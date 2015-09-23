@@ -86,6 +86,7 @@ Run the following example Docker commands. For each of the following examples af
     docker run -it --rm=true centos:5.11 bash
     # Check the version of Centos. Welcome to Legacyville - Population: 1
     cat /etc/redhat-release
+    # Once satisfied that it worked, type "exit" to logout of the docker container
     # Launch a Python 2.7 interpreter
     docker run -it --rm=true python:2.7 python
     # Launch the latest Python version
