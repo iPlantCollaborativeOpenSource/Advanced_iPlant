@@ -1,6 +1,6 @@
-===============================
-Advanced iPlant: The Agave APIs
-===============================
+Advanced iPlant: API-based data analysis
+========================================
+
 Overview
 --------
 iPlant offers a set of APIs, known as the Agave APIs. They allow you scriptable access to:
@@ -19,16 +19,16 @@ Setting up your environment
 
 **Preparing to use Docker**
 
-First, open **two** UNIX terminal windows, each with access to Docker. The way you do this varies by platform:
+First, open a UNIX terminal windows with access to Docker. The way you do this varies by platform:
 
-1. If you are on **Mac or Windows and using Kitematic**, click the **[DOCKER CLI]** button two times.
-2. If you are on **Mac or Windows using **Docker Toolbox**, click the Docker Quickstart Terminal icon twice to launch the two windows
-3. If you are on **Linux with Docker installed natively**, open two terminal sessions
+1. If you are on **Mac or Windows and using Kitematic**, click the **[DOCKER CLI]** button.
+2. If you are on **Mac or Windows using **Docker Toolbox**, click the Docker Quickstart Terminal icon to launch the window
+3. If you are on **Linux with Docker installed natively**, open a terminal session
 4. If you are on **Mac or Linux using a VM to run Linux**, follow Linux-native instructions entirely within your VM
 
 **Launching an Agave CLI container**
 
-Choose one (but not both) of your Docker-enabled terminal sessions. Enter the following text exactly:
+In your Docker-enabled terminal session, enter the following text exactly:
 
 ``docker run -it --rm=true -v $HOME/.agave:/root/.agave -v `pwd`:/home iplantc/agave-cli bash``
 
@@ -61,7 +61,11 @@ All of the interesting things we want to do with the iPlant APIs require that yo
 
 ``auth-tokens-create -S``
 
-Notice that you need to include the ``-S`` argument again so that the command line tools can store and retrieve your token from the local cache.  If successful, this command will give a long string of letters and numbers that is your token.  It will also store your token and a "refresh token" in the local cache.  The refresh token can be used to get another token after this one expires without re-entering our username and password.  When you need a new token, type:
+Notice that you need to include the ``-S`` argument again so that the command line tools can store and retrieve your token from the local cache.  If successful, this command will give a long string of letters and numbers that is your token.  It will also store your token and a "refresh token" in the local cache.  At any time, you can check if you have an active token by using this command:
+
+``auth-check``
+
+If things went will, it will confirm that you have a token on the "iplantc.org" tenant and will show you how much time is left.  The refresh token can be used to get another token without re-entering your username and password.  When you need a new token, type:
 
 ``auth-tokens-refresh -S``
 
@@ -80,6 +84,17 @@ The iPlant APIs allow you to store data and run analyses on many different high 
 
 ``systems-list``
 
+There are quite a few systems available, and these include both storage systems dedicated to hosting data as well as execution systems that are primarily used for running analyses.  To see only the storage systems, type the following:
+
+``systems-list -S``
+
+The output
+
+s3-demo-03.iplantc.org
+rodeo.storage.demo
+ncbi
+archive.data.iplantcollaborative.org
+data.iplantcollaborative.org
 
 
 Data management
@@ -87,6 +102,9 @@ Data management
 
 
 
+
+Launching and managing jobs
+---------------------------
 
 
 

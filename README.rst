@@ -1,6 +1,10 @@
 Welcome to Advanced iPlant
 ==========================
 
+For life sciences researchers with limited experience working at the command line, iPlant seeks to provide more intuitive user interfaces for exploring data and running analyses.  It cannot be denied, however, that the most efficient way for advanced users to conduct data analysis and manage data at scale is by scripting on a command line interface (CLI).  For this, iPlant has a set of APIs (application programming interfaces) and CLI tools that enable researchers to explore data and leverage the iPlant compute and storage infrastructure in programmatic ways, or if so inclined, to develop their own web tools on the iPlant APIs.
+
+In this workshop, you will learn about the CLI tools available and practice running your own code on custom cloud systems. 
+
 Schedule
 --------
 
