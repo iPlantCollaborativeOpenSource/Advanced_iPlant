@@ -120,13 +120,24 @@ Later on, we will do quite a bit of data movement and management.  At the moment
 - Your home directory on data.iplantcollaborative.org is just your usersname.  For example, if user jfonner wanted to see what was in his home directory, he would type ``files-list /jfonner``.  Your home directory might be empty if you are new to iPlant.  Try looking at the ``/shared/iplant_training/`` directory.  Can you tell which directory was created most recently? (Hint: you will need to both pass an extra argument to "files-list" and can optionally pipe the output to another bash command for sorting)
 
 
-The default iPlant storage system is data.iplantcollaborative.org.  So the following two commands are equivalent
+The default iPlant storage system is data.iplantcollaborative.org, which is the iPlant Data Store.  So the following two commands are equivalent
 
 .. code-block:: bash
+
     files-list /shared/iplant_training
     files-list -S data.iplantcollaborative.org /shared/iplant_training
 
+Let's try uploading a file into your home directory.  Type in the following, substituting IPLANT_USERNAME for your actual username:
 
+.. code-block:: bash
+
+    echo "hello world" > demo.txt
+    files-upload -F demo.txt /IPLANT_USERNAME/
+    files-list /IPLANT_USERNAME/
+
+The iPlant Discovery Environment also uses the iPlant Data Store.  In a browser window, navigate to https://de.iplantc.org and login.  Within the DE, open the "Data" window and look inside your home directory.  See ``demo.txt`` there?
+
+Part of iPlant's goal is to let users access their data however they want.  By building on common infrastructure, command line users can collaborate with Discovery Environment users seamlessly, and users can hop between interfaces as it suits their needs.
 
 
 Launching and managing jobs
