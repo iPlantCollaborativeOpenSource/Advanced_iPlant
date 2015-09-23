@@ -131,6 +131,9 @@ The ``make_exec_docker.sh`` script uses environment variables to turn a template
         }
     }
 
+.. We need to fix this. I think we want people to stay in the Agave CLI window, but I'm not sure
+   Currently users are guaranteed to be in the wrong window at some point
+
 Re-run the script, redirecting the output to a file ``scripts/make_exec_docker.sh $DOCKER_MACHINE_NAME $IPLANT_USERNAME > my-ec2.json``, then register the system with the Agave systems API
 
 ``systems-addupdate -v -F my-ec2.json``

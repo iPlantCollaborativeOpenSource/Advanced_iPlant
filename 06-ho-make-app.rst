@@ -6,20 +6,22 @@ Switch to your **other Docker Terminal window (**not agave-cli**), then go to th
 Develop and test code locally using Docker
 ------------------------------------------
 
-iPlant staff have written a simple Python application that counts word-length frequencies in a text file. The code is in ``lib/main.py`` on your local machine. Before we run this app, we need to make sure docker-machine will use your local system and not the Amazon cloud.
+Before we run this app, we need to make sure docker-machine will use your local system and not the Amazon cloud.
 
 .. code-block:: bash
 
     docker-machine ls
+    # Windows/Mac users only! Linux users read on.
     eval $(docker-machine env default)
+    docker-machine ls
 
-.. Linux users need docker-machine env --unset
+For Windows and Mac users, this should have switched docker-machine back to using your local VM. **Linux Users** need to run a slightly different command to revert back to running on their local system:
 
-NAME                    ACTIVE   DRIVER       STATE     URL                         SWARM
-default                          virtualbox   Running   tcp://192.168.99.100:2376
-fonner-duringworkshop   *        amazonec2    Running   tcp://54.219.151.138:2376
+.. code-block:: bash
+    # Linux users only!
+    eval $(docker-machine env --unset)
 
-By adapting the workflow we are demonstrating, you can  develop and test your own Docker-based scientific codes. Launch ``main.py --help`` to read its help (and test that the Docker setup is working OK) by entering the Docker run command below. It should print a help screen (perhaps after pulling the ``mwvaughn/python-demo`` image).
+Now everyone should have docker set to run locally.  iPlant staff have written a simple Python application that counts word-length frequencies in a text file. The code is in ``lib/main.py`` on your local machine. By adapting the workflow we are demonstrating, you can  develop and test your own Docker-based scientific codes. Launch ``main.py --help`` to read its help (and test that the Docker setup is working OK) by entering the Docker run command below. It should print a help screen (perhaps after pulling the ``mwvaughn/python-demo`` image).
 
 .. code-block:: bash
 
@@ -111,7 +113,7 @@ You need access to the Agave CLI for this part, so **switch to the Terminal runn
 
     # You should get a response
     # Successfully added app IPLANT_USERNAME-wordfrequency-0.1.0
-    export APP_ID=IPLANT_USERNAME-wordfrequency-0.1.0
+    export APP_ID=$IPLANT_USERNAME-wordfrequency-0.1.0
 
     # Create a custom test job
     ../scripts/make_custom_job.sh $APP_ID wordfrequency-0.1.0/templates/job.jsonx > my-job.json
