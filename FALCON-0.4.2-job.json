@@ -7,9 +7,8 @@
   "memoryPerNode": "1GB",
   "nodeCount": 1,
   "processorsPerNode": 1,
-  "archive": false,
+  "archive": true,
   "archiveSystem": "data.iplantcollaborative.org",
-  "archivePath": null,
   "inputs": {
     "fastas": "agave://data.iplantcollaborative.org/gzynda/ecoli_test_data"
   },

@@ -50,37 +50,36 @@ You will then be prompted to select a tenant by typing in the corresponding numb
 
 **Create an Oauth client**
 
-Like Google and most other software-as-a-service providers, the Cyverse APIs use the OAuth model for authentication.  This means that in addition to your username and password, you need a "client key" and "client secret".  For ecosystems with multiple services using the same authentication fabric, having client information independent from user credentials has some nice benefits, but for the purposes of this tutorial, we just need a valid client and don't really care about those other benefits.  Create your own client by typing this command at the command line:
+Like Google and most other software-as-a-service providers, the Cyverse APIs use the OAuth model for authentication.  This means that in addition to your username and password, we need a "client key" and "client secret".  For ecosystems with multiple services using the same authentication fabric, having client information independent from user credentials has some nice benefits, but for the purposes of this tutorial, we just need a valid client and don't really care about those other benefits.  Create a client by typing this command at the command line:
 
 ``clients-create -S -N my-client``
 
-You will be prompted for your username and password.  If successful, a new client will be created, and the key and secret will be stored in the local Agave cache.  Don't neglect to include the ``-S`` argument in the ``clients-create`` command, otherwise the client information will not be saved in the cache.  At this point, you now have a username, password, client key, and client secret.  You're ready to log in for the first time.
+After entering username and password, a new client will be created, and the key and secret will be stored in the local Agave cache.  Don't neglect to include the ``-S`` argument in the ``clients-create`` command, otherwise the client information will not be saved in the cache.  At this point, you now have a username, password, client key, and client secret.  The CLI is ready to log in for the first time.
 
-**Get a token**
+**Getting an API token**
 
-All of the interesting things we want to do with the Cyverse APIs require that you be authenticated, but rather than typing in your username and password every time you want to do something, you can log in once with our credentials and then use a "token" to prove your identity for a limited period of time afterward (usually 4 hours).  It's both convenient and in line with best security practices.  To get a token, use the ``auth-tokens-create`` command like this:
+All of the interesting things we want to do with the Cyverse APIs require that one be authenticated, but rather than typing in a username and password every time an action is needed, one can log in once with his credentialsthen use a "token" to prove identity for a limited period of time afterward (usually 4 hours).  It's both convenient and in line with best security practices.  To get a token, use the ``auth-tokens-create`` command like this:
 
 ``auth-tokens-create -S``
 
-Notice that you need to include the ``-S`` argument again so that the command line tools can store and retrieve your token from the local cache.  If successful, this command will give a long string of letters and numbers that is your token.  It will also store your token and a "refresh token" in the local cache.  At any time, you can check if you have an active token by using this command:
+Notice that one needs to include the ``-S`` argument again so that the command line tools can store and retrieve the token from the local cache.  If successful, this command will give a long string of letters and numbers that is the current token.  It will also store the token and a "refresh token" in the local cache.  At any time, one can check if the token is active using this command:
 
 ``auth-check``
 
-If things went well, it will confirm that you have a token on the "iplantc.org" tenant and will show you how much time is left.  The refresh token can be used to get another token without re-entering your username and password.  When you need a new token, type:
+If things went well, it will confirm that a token has been acquired for the "iplantc.org" tenant and will show how much time is left.  The refresh token can be used to get another token without re-entering a username and password.  When a new token is needed, type:
 
 ``auth-tokens-refresh -S``
 
-That will use your "refresh token" to attempt to retrieve a new token.  There is no harm trying it out early, either.  At this point, you should have a shiny new token, and it's time to take it for a test drive to see what it can do.
+That will use the stored "refresh token" to attempt to retrieve a new token.
 
-**Exercises**
+**Deep Dive**
 
-- Take a peek at what is stored in the local cache by typing ``cat ~/.agave/current | python -mjson.tool``.  What information is there?  If you refresh your token using ``auth-tokens-refresh -S``, does anything change?
 - Try adding the "very verbose" flag (-V) to auth-tokens-refresh.  The first line says "Calling curl".  What is curl?  (Hint: ``man curl``)
 
 Storage and Execution Systems
 -----------------------------
 
-The Cyverse APIs allow you to store data and run analyses on many different high performance systems.  To take a look at the different systems, type this command:
+The Cyverse APIs allow one to store data and run analyses on many different high performance systems.  To view the different systems, type this command:
 
 ``systems-list``
 
@@ -91,19 +90,19 @@ There are quite a few systems available, and these include both storage systems 
 The output of this command should list several systems, most notably:
 
 - **data.iplantcollaborative.org** - this is the Cyverse Data Store.  Files here are also accessible through the Cyverse Discovery Environment.
-- **ncbi** - this is a read-only reference to
+- **ncbi** - this is a read-only reference to NCBI
 
-Most interactions with data storage systems use the "files" commands that are discussed in the next session.  Next, let's look at the execution systems, but rather than just give you the command, can you figure it out?  To see what kind of arguments the ``systems-list`` command accepts, try this:
+Most interactions with data storage systems use the "files" commands that are discussed in the next session.  Next, let's look at the execution systems, but rather than just giving the command, can we figure it out?  To see what kind of arguments the ``systems-list`` command accepts, try this:
 
 ``systems-list -h``
 
-Once you find it, run the appropriate command to only show execution systems.  Among the systems on the list, some notable ones are:
+It looks liek ``systems-list -E`` shows execution systems.
 
-- **lonestar4.tacc.teragrid.org** - a compute cluster at the Texas Advanced Computing Center
 - **stampede.tacc.utexas.edu** - currently the 8th largest supercomputer in the world!
+- **lonestar4.tacc.teragrid.org** - a compute cluster at the Texas Advanced Computing Center
 - **docker.iplantcollaborative.org** - this execution host runs Docker jobs. Mostly for demonstration and training purposes for now.
 
-Most interactions with execution systems are to launch jobs, but for your own systems, it is also possible to use the "files" commands to look at the local data as well.  **Note:** An execution system is always tied to a set of user credentials for that system.  In other words, when you run jobs on Stampede, there is an unprivileged Cyverse service account that runs the job on your behalf and returns the results to you.  This means that Cyverse can share apps with you that run on Stampede without requiring that you be able to login to Stampede directly.  If you actually have credentials that let you SSH into Stampede, you can use the ``systems-clone`` command to create your own private copy of Stampede that uses your credentials, but we won't do that in this tutorial.  You can also bring your OWN systems into the Agave API, but that's outside the scope of this simple tour.
+Most interactions with execution systems are to launch jobs, but for one's own systems, it is also possible to use the "files" commands to look at the local data as well.  **Note:** An execution system is always tied to a set of user credentials for that system.  In other words, when one run jobs on the public Stampede system, there is an unprivileged Cyverse service account that runs the job on your behalf and returns the results to you.  This means that Cyverse can share apps with you that run on Stampede without requiring that you be able to login to Stampede directly.  If you actually have credentials that let you SSH into Stampede, you can use the ``systems-clone`` command to create your own private copy of Stampede that uses your credentials, but we won't do that in this tutorial.  You can also bring your OWN systems into the Agave API, but that's outside the scope of this simple tour.
 
 Data management
 ---------------
