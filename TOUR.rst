@@ -27,8 +27,8 @@ Simply clone the *foundation-cli* repository from Bitbucket and add its *bin* di
 
 .. code-block:: bash
 
-  git clone https://bitbucket.org/taccaci/foundation-cli.git agave-cli
-	export PATH=$PATH:`pwd`/agave-cli/bin
+git clone https://bitbucket.org/taccaci/foundation-cli.git agave-cli
+export PATH=$PATH:$HOME/agave-cli/bin
 
 From here on, we assume you have the CLI installed and your environment configured properly. We also assume you either set or will replace the following environment variables:
 
