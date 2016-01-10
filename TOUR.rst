@@ -33,8 +33,8 @@ Simply clone the *foundation-cli* repository from Bitbucket and add its *bin* di
 
 From here on, we assume you have the CLI installed and your environment configured properly. We also assume you either set or will replace the following environment variables:
 
-* `AGAVE_USERNAME`: The username you use to login to Cyverse/Cyverse
-* `AGAVE_PASSWORD`: The password you use to login to Cyverse/Cyverse
+* `CYVERSE_USERNAME`: The username you use to login to Cyverse/Cyverse
+* `CYVERSE_PASSWORD`: The password you use to login to Cyverse/Cyverse
 
 Authentication
 --------------
@@ -128,18 +128,17 @@ The default Cyverse storage system is data.iplantcollaborative.org, which is the
     files-list /shared/iplant_training
     files-list -S data.iplantcollaborative.org /shared/iplant_training
 
-Let's try uploading a file into your home directory.  Type in the following, substituting IPLANT_USERNAME for your actual username:
+Let's try uploading a file into your home directory.  Type in the following, substituting CYVERSE_USERNAME for your actual username:
 
 .. code-block:: bash
 
     echo "hello world" > demo.txt
-    files-upload -F demo.txt /IPLANT_USERNAME/
-    files-list /IPLANT_USERNAME/
+    files-upload -F demo.txt /CYVERSE_USERNAME/
+    files-list /CYVERSE_USERNAME/
 
 The Cyverse Discovery Environment also uses the Cyverse Data Store.  In a browser window, navigate to https://de.iplantc.org and login.  Within the DE, open the "Data" window and look inside your home directory.  See ``demo.txt`` there?
 
 Part of Cyverse's goal is to let users access their data however they want.  By building on common infrastructure, command line users can collaborate with Discovery Environment users seamlessly, and users can hop between interfaces as it suits their needs.
-
 
 Launching and managing jobs
 ---------------------------
