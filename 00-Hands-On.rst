@@ -26,3 +26,7 @@ Activities:
 - `Example 1: Cloud Runner <20-cloud-runner.rst>`_
 - `Example 2: An Autoscaling Cluster <21-cfncluster.rst>`_
 - `Troubleshooting <99-ho-troubleshoot.rst>`_
+
+Homework:
+
+- Wire up the `Agave Docker Runner Webapp Demo` <https://github.com/agaveapi/docker-runner-webapp-demo>`_ to point to your own cloud-runner system

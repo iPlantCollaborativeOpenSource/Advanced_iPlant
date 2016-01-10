@@ -37,7 +37,7 @@
   }, {
     "id": "appBundle",
     "details": {
-      "defaut": null,
+      "default": null,
       "label": "Application bundle",
       "description": "Compressed work folder containing application and binaries to be run in the Docker container. zip, gz.",
       "argument": null,
