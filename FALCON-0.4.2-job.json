@@ -1,0 +1,41 @@
+{
+  "name":"FALCON_demo_pag2016",
+  "appId": "FALCON-0.4.2",
+  "batchQueue": "default",
+  "executionSystem": "gspyadav.stampede.clone",
+  "maxRunTime": "04:00:00",
+  "memoryPerNode": "1GB",
+  "nodeCount": 1,
+  "processorsPerNode": 1,
+  "archive": false,
+  "archiveSystem": "data.iplantcollaborative.org",
+  "archivePath": null,
+  "inputs": {
+    "fastas": "agave://data.iplantcollaborative.org/gzynda/ecoli_test_data"
+  },
+  "parameters": {
+    "len_cut": 12000
+  },
+  "notifications": [
+    {
+      "url":"http://requestbin.agaveapi.co/yo63f7yo?job_id=${JOB_ID}&status=${JOB_STATUS}",
+      "event":"*",
+      "persistent":true
+    },
+    {
+      "url":"gzynda@tacc.utexas.edu",
+      "event":"RUNNING",
+      "persistent":false
+    },
+    {
+      "url":"gzynda@tacc.utexas.edu",
+      "event":"FINISHED",
+      "persistent":false
+    },
+    {
+      "url":"gzynda@tacc.utexas.edu",
+      "event":"FAILED",
+      "persistent":false
+    }
+  ]
+}

@@ -1,63 +1,64 @@
-Advanced iPlant: API-based data analysis
-========================================
+Advanced Cyverse: Deploying simple-to-use scalable workflows using the Agave API
+================================================================================
 
 Overview
 --------
-iPlant offers a set of Science APIs, built on the Agave platform, that allow you scriptable access to:
+Cyverse offers a set of REST APIs, built on the Agave platform, that give you scriptable access to:
 
-* Use applications published by iPlant and your colleagues
-* Manage and use data in the iPlant Data Store
-* Bring your own applications into iPlant
-* Bring your own computing and storage resources into iPlant
-* Share nearly any data or resource in iPlant with other people
+* Use applications published by Cyverse and your colleagues
+* Manage and use data in the Cyverse Data Store
+* Bring your own applications into Cyverse
+* Bring your own computing and storage resources into Cyverse
+* Share nearly any data or resource in Cyverse with other people
 * Share nearly any data or resource on your own computing and storage resources with other people
 
-In this exercise, you will explore the iPlant Data Store, apps available on iPlant, running and managing jobs, and storing metadata.
+In this demo, we will interact with the Cyverse Data Store and view apps available at Cyverse. We will then run and monitor a PacBio FALCON job and retrieve the results.
 
-Setting up your environment
----------------------------
+Installing the CLI
+------------------
 
-**Preparing to use Docker**
+The Agave CLI is a collection of Bash shell scripts allowing you to interact with the Agave Platform. It allows you to streamline common interactions with the API and automate repetitive and/or background tasks. The following dependencies are required to use the Agave API CLI:
 
-First, open a UNIX terminal window with access to Docker. The way you do this varies by platform:
+	* bash
+	* curl
+	* python (2.7.1+)
 
-1. If you are on **Mac or Windows and using Kitematic**, click the **[DOCKER CLI]** button.
-2. If you are on **Mac or Windows using Docker Toolbox**, click the Docker Quickstart Terminal icon to launch the window
-3. If you are on **Linux with Docker installed natively**, open a terminal session. Make sure you are able to access Docker by typing ``docker images``
-4. If you are on **Mac or Linux using a VM to run Linux**, follow Linux-native instructions entirely within the VM
+Simply clone the *foundation-cli* repository from Bitbucket and add its *bin* directory to your PATH and you're ready to go. You may want to make that PATH edit permanent by adding it to your .bashrc or or .profile file.
 
-**Launching an Agave CLI container**
+.. code-block:: bash
 
-In your Docker-enabled terminal session, enter the following text exactly:
+  git clone https://bitbucket.org/taccaci/foundation-cli.git agave-cli
+	export PATH=$PATH:`pwd`/agave-cli/bin
 
-``docker run -it --rm=true -v $HOME/.agave:/root/.agave -v $HOME:/home -w /home iplantc/agave-cli bash``
+From here on, we assume you have the CLI installed and your environment configured properly. We also assume you either set or will replace the following environment variables:
 
-This launches a container running the latest release of the iPlant flavor of the ``agave-cli``. It mounts Agave's local "cache" directory and also mounts **your local home directory** under ``/home`` inside the container. Check the contents of ``/home`` to verify that you can see your own files and folders.
+* `AGAVE_USERNAME`: The username you use to login to Cyverse/Cyverse
+* `AGAVE_PASSWORD`: The password you use to login to Cyverse/Cyverse
 
 Authentication
 --------------
 
-The first step in working with iPlant's APIs is to login with your iPlant credentials.  If you don't have an iPlant account or forgot your password, go to http://user.iplantcollaborative.org/. Once you have your credentials, you can begin setting up an OAuth authenticated connection with the APIs.
+The first step in working with Cyverse's APIs is to login with your Cyverse credentials.  If you don't have an Cyverse account or forgot your password, go to http://user.iplantcollaborative.org/. Once you have your credentials, you can begin setting up an OAuth authenticated connection with the APIs.
 
 **Select a tenant**
 
-The Agave API supports multiple tenants as well as multiple OAuth clients.  You first need to specify that you are using the iPlant tenant by typing the following at the command line:
+The Agave API supports multiple tenants as well as multiple OAuth clients.  You first need to specify that you are using the Cyverse tenant by typing the following at the command line:
 
 ``tenants-init``
 
-You will then be prompted to select a tenant by typing in the corresponding number.  Choose "iplantc.org" as the tenant.  Executing this command will store the tenant information in the aforementioned Agave local cache directory.
+You will then be prompted to select a tenant by typing in the corresponding number.  Choose "iplantc.org" as the tenant.  Executing this command will store the tenant information in the aforementioned Agave local cache directory. You will only need to do this the first time you download and configure the Agave CLI on any particular computer.
 
-**Create a client**
+**Create an Oauth client**
 
-Like Google and many other large service providers, the iPlant APIs use the OAuth model for authentication.  This means that in addition to your username and password, you need a "client key" and "client secret".  For ecosystems with multiple services using the same authentication fabric, having client information independent from user credentials has some nice benefits, but for the purposes of this tutorial, we just need a valid client and don't really care about any other benefits.  Create your own client by typing this command at the command line:
+Like Google and most other software-as-a-service providers, the Cyverse APIs use the OAuth model for authentication.  This means that in addition to your username and password, you need a "client key" and "client secret".  For ecosystems with multiple services using the same authentication fabric, having client information independent from user credentials has some nice benefits, but for the purposes of this tutorial, we just need a valid client and don't really care about those other benefits.  Create your own client by typing this command at the command line:
 
 ``clients-create -S -N my-client``
 
-You will be prompted for your username and password.  If successful, a new client will be created, and the key and secret will be stored in the local Agave cache.  Don't neglect to include the ``-S`` argument in the ``clients-create`` command, otherwise the client information will not be saved in the cache.  At this point, you now have a username, password, client key, and client secret.  You're ready to log in.
+You will be prompted for your username and password.  If successful, a new client will be created, and the key and secret will be stored in the local Agave cache.  Don't neglect to include the ``-S`` argument in the ``clients-create`` command, otherwise the client information will not be saved in the cache.  At this point, you now have a username, password, client key, and client secret.  You're ready to log in for the first time.
 
 **Get a token**
 
-All of the interesting things we want to do with the iPlant APIs require that you be authenticated, but rather than typing in your username and password every time you want to do something, you can log in once with our credentials and then use a "token" to prove your identity for a limited period of time afterward (usually 4 hours).  It's both convenient and in line with best security practices.  To get a token, use the ``auth-tokens-create`` command like this:
+All of the interesting things we want to do with the Cyverse APIs require that you be authenticated, but rather than typing in your username and password every time you want to do something, you can log in once with our credentials and then use a "token" to prove your identity for a limited period of time afterward (usually 4 hours).  It's both convenient and in line with best security practices.  To get a token, use the ``auth-tokens-create`` command like this:
 
 ``auth-tokens-create -S``
 
@@ -76,11 +77,10 @@ That will use your "refresh token" to attempt to retrieve a new token.  There is
 - Take a peek at what is stored in the local cache by typing ``cat ~/.agave/current | python -mjson.tool``.  What information is there?  If you refresh your token using ``auth-tokens-refresh -S``, does anything change?
 - Try adding the "very verbose" flag (-V) to auth-tokens-refresh.  The first line says "Calling curl".  What is curl?  (Hint: ``man curl``)
 
-
 Storage and Execution Systems
 -----------------------------
 
-The iPlant APIs allow you to store data and run analyses on many different high performance systems.  To take a look at the different systems, type this command:
+The Cyverse APIs allow you to store data and run analyses on many different high performance systems.  To take a look at the different systems, type this command:
 
 ``systems-list``
 
@@ -90,9 +90,8 @@ There are quite a few systems available, and these include both storage systems 
 
 The output of this command should list several systems, most notably:
 
-- **data.iplantcollaborative.org** - this is the iPlant Data Store.  Files here are also accessible through the iPlant Discovery Environment.
-- **s3-demo-03.iplantc.org** - this is a demo system that we have shared with you today for this course.
-- **ncbi** - this is a read-only reference to NCBI
+- **data.iplantcollaborative.org** - this is the Cyverse Data Store.  Files here are also accessible through the Cyverse Discovery Environment.
+- **ncbi** - this is a read-only reference to
 
 Most interactions with data storage systems use the "files" commands that are discussed in the next session.  Next, let's look at the execution systems, but rather than just give you the command, can you figure it out?  To see what kind of arguments the ``systems-list`` command accepts, try this:
 
@@ -102,25 +101,27 @@ Once you find it, run the appropriate command to only show execution systems.  A
 
 - **lonestar4.tacc.teragrid.org** - a compute cluster at the Texas Advanced Computing Center
 - **stampede.tacc.utexas.edu** - currently the 8th largest supercomputer in the world!
-- **docker.iplantcollaborative.org** - mostly for demonstration and training purposes at the time of writing this, this execution host runs docker jobs.
+- **docker.iplantcollaborative.org** - this execution host runs Docker jobs. Mostly for demonstration and training purposes for now.
 
-Most interactions with execution systems are to launch jobs, but for your own systems, it is also possible to use the "files" commands to look at the local data as well.  **Note:** An execution system is always tied to a set of user credentials for that system.  In other words, when you run jobs on Stampede, there is an unprivileged iPlant service account that runs the job on your behalf and returns the results to you.  This means that iPlant can share apps with you that run on Stampede without requiring that you be able to login to Stampede directly.  If you actually have credentials that let you SSH into Stampede, you can use the ``systems-clone`` command to create your own private copy of Stampede that uses your credentials, but we won't do that in this tutorial.  Later on, we will show you how to register your own execution system.
-
+Most interactions with execution systems are to launch jobs, but for your own systems, it is also possible to use the "files" commands to look at the local data as well.  **Note:** An execution system is always tied to a set of user credentials for that system.  In other words, when you run jobs on Stampede, there is an unprivileged Cyverse service account that runs the job on your behalf and returns the results to you.  This means that Cyverse can share apps with you that run on Stampede without requiring that you be able to login to Stampede directly.  If you actually have credentials that let you SSH into Stampede, you can use the ``systems-clone`` command to create your own private copy of Stampede that uses your credentials, but we won't do that in this tutorial.  You can also bring your OWN systems into the Agave API, but that's outside the scope of this simple tour.
 
 Data management
 ---------------
 
-Later on, we will do quite a bit of data movement and management.  At the moment, it is probably a good time to explore some of the files commands on your own.  Try entering the first part of the files command and hitting tab twice like this:
+You likely do quite a bit of data movement and management.  So, it is probably a good time to explore some of the Agave files commands.  If we enter the first part of the files command and hit tab twice like this, we will see many file commands.
 
 ``files-<TAB><TAB>``
 
 **Exercises**
 
 - Take a few minutes to look through the different API commands that start with "files-".  Which ones do you think you will use the most?  See a description of each command by using the ``-h`` flag (e.g. ``files-upload -h``).
-- Your home directory on data.iplantcollaborative.org is just your username.  For example, if user jfonner wanted to see what was in his home directory, he would type ``files-list /jfonner``.  Your home directory might be empty if you are new to iPlant.  Try looking at the ``/shared/iplant_training/`` directory.  Can you tell which directory was created most recently? (Hint: you will need to both pass an extra argument to "files-list" and can optionally pipe the output to another bash command for sorting)
+- Your home directory on data.iplantcollaborative.org is just *your username*.  For example, if user jfonner wanted to see what was in his home directory, he would type ``files-list /jfonner``.  Your home directory might be empty if you are new to Cyverse. Let's look in the ``/shared/iplant_training/`` directory.
 
+``files-list -L shared/iplant_training/```
 
-The default iPlant storage system is data.iplantcollaborative.org, which is the iPlant Data Store.  So the following two commands are equivalent
+Which directory was created most recently?
+
+The default Cyverse storage system is data.iplantcollaborative.org, which is the Cyverse Data Store.  Thus, the following two commands are equivalent:
 
 .. code-block:: bash
 
@@ -135,9 +136,9 @@ Let's try uploading a file into your home directory.  Type in the following, sub
     files-upload -F demo.txt /IPLANT_USERNAME/
     files-list /IPLANT_USERNAME/
 
-The iPlant Discovery Environment also uses the iPlant Data Store.  In a browser window, navigate to https://de.iplantc.org and login.  Within the DE, open the "Data" window and look inside your home directory.  See ``demo.txt`` there?
+The Cyverse Discovery Environment also uses the Cyverse Data Store.  In a browser window, navigate to https://de.iplantc.org and login.  Within the DE, open the "Data" window and look inside your home directory.  See ``demo.txt`` there?
 
-Part of iPlant's goal is to let users access their data however they want.  By building on common infrastructure, command line users can collaborate with Discovery Environment users seamlessly, and users can hop between interfaces as it suits their needs.
+Part of Cyverse's goal is to let users access their data however they want.  By building on common infrastructure, command line users can collaborate with Discovery Environment users seamlessly, and users can hop between interfaces as it suits their needs.
 
 
 Launching and managing jobs
@@ -145,46 +146,50 @@ Launching and managing jobs
 
 **Apps**
 
-Later in the workshop, we will look at registering apps and running jobs.  Here, we should just cover a few concepts. First, apps in agave are always tied to a system, and if you will recall, systems are always tied to a set of credentials.  To explore the apps that are publically available in iPlant, try this:
+To explore the apps that are publically available in Cyverse, you can use apps-list or apps-search
 
 .. code-block:: bash
 
     apps-list
-    apps-list -n dnasubway
-    apps-list -S stampede.tacc.utexas.edu
+    apps-list -S stampede.tacc.utexas.edu -l 5
+    # SQL-like query terms
+    apps-search 'name.like=*dnasubway*' 'limit=10' 'public=true'
+    apps-list -v FALCON-0.4.2
 
-Every app in this list has all of its binaries and dependencies packaged up on a data system (usually data.iplantcollaborative.org).  Notice that apps are also versioned, and for public apps there is also an "update" number that increments every time it is changed.  Thus, you can be assured that a given app ID (e.g. dnasubway-cuffmerge-lonestar-2.1.1u2) will always be the exact same code with the same checksum running on the same system.  It also has a JSON description of the inputs, parameters, and outputs for the app.  Though we won't deviate now to explore it, ``apps-clone`` can be used to create a personal copy of an app on an execution system that you own.
+Every app in this list has all of its binaries and dependencies packaged up on a data system (usually data.iplantcollaborative.org).  Notice that apps are also versioned, and for public apps there is also an "update" number that increments every time it is changed.  Thus, you can be assured that a given app ID (e.g. dnasubway-cuffmerge-lonestar-2.1.1u2) will always be the exact same code with the same checksum running on the same system.  It also has a JSON description of the inputs, parameters, and outputs for the app.
 
 **Jobs**
 
-The general flow for running a job often looks like the following:
+Let's submit a FALCON job from the CLI
 
 .. code-block:: bash
 
-    jobs-template -A bowtie2-2.2.4_aligner-2.2.4u1 > bowtie-job.json
-    # edit bowtie-job.json 
-    jobs-submit -F bowtie-job.json
-    jobs-list
-    jobs-history 0123456789012345678-0123456789abcde-0001-007
-    jobs-output-list 0123456789012345678-0123456789abcde-0001-007
+    jobs-template -A FALCON-0.4.2 > FALCON-0.4.2-job.jsonX
+    # Edit FALCON-0.4.2-job.jsonX to add input files, etc and save it as FALCON-0.4.2-job.json
+    # Submit it to the Agave jobs service
+    jobs-submit -F FALCON-0.4.2-job.json -W
 
-We will actually do this later on, for now let's just look at the commands available to us:
+You can skip the -W watch flag and submit the job asychronously. If you do so, you may monitor the job's progress via status and history. You may also use notifications in your job to set up HTTP or email callbacks to notify you of the job's progress through its lifecycle.
 
-- jobs-template - **experimental**. This command attempts to parse an app description and create a template for running a job against that app.  It is dependent on how the app was integrated, so it may require more or less editing to do what you want.
-- jobs-submit - Once you have a job submission JSON file, you can submit it with this command.
-- jobs-list - Shows a list of past jobs you have initiated and their status
-- jobs-history - Gives you detailed information about a specific job.
-- jobs-output-list - Locates the output from the job and lists the contents.
+.. code-block:: bash
 
-If you haven't run any Agave jobs before, ``jobs-list`` may be empty for you.  Conversely, if you have run "HPC" jobs in the Discovery Environment before, you will also see a record of them here.
+    jobs-status JOBID
+    jobs-history JOBID
 
-**Exercises**
+Each of these can be invoked with the -v flag to return a detailed, parseable JSON response.
 
-- Take a few minutes to look at what goes into an example FastQC app with this command: ``apps-list -v dnasubway-fastqc-lonestar-0.11.2.0u2``
-- Why do you think the APIs use JSON to describe apps and run jobs (and most other things)?
+While this is running, let's go look at how Agave interacts with the Cyverse DE...
 
+To conclude the demo, let's view or download the FALCON results:
 
-Summary
--------
+.. code-block:: bash
 
-There are a lot of features we have covered, and honestly quite a few we haven't explored yet, but hopefully this gives you a rough idea of how to explore the CLI tools and the underlying API.  From here, it's time to move on to some hands-on examples.
+    # List the job outputs
+    jobs-output-list JOBID
+    # Download the entire job output directory
+    jobs-output-get -r $JOBID
+    # Download a specific file
+    jobs-output-get -r $JOBID PATH
+    # View a specific file on screen
+    jobs-output-get -P JOBID myerrorfile.err
+
