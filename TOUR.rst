@@ -90,7 +90,7 @@ There are quite a few systems available, and these include both storage systems 
 The output of this command should list several systems, most notably:
 
 - **data.iplantcollaborative.org** - this is the Cyverse Data Store.  Files here are also accessible through the Cyverse Discovery Environment.
-- **ncbi** - this is a read-only reference to NCBI
+- **s3-demo-03.iplantc.org** - Demonstration of AWS S3 for storage
 
 Most interactions with data storage systems use the "files" commands that are discussed in the next session.  Next, let's look at the execution systems, but rather than just giving the command, can we figure it out?  To see what kind of arguments the ``systems-list`` command accepts, try this:
 
